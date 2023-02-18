@@ -130,7 +130,7 @@
         v-model="medicineModel.description"
         :autoResize="true"
         rows="5"
-        cols="116"
+        cols="104"
         placeholder="Description"
       />
     </div>
@@ -153,7 +153,7 @@
   <Toast />
 </template>
 <script>
-import axios from "axios";
+import { HTTP } from "@/axios";
 import { FilterMatchMode } from "primevue/api";
 export default {
   data() {
@@ -198,13 +198,12 @@ export default {
     async getAllMedicine() {
       this.loading = true;
       // eslint-disable-next-line no-unused-vars
-      const respone = await axios
-        .get("Medicines/GetAllMedicines", {
-          // params: {
-          //   pageSize: this.resultPage.pageSize,
-          //   pageIndex: this.resultPage.pageNumber,
-          // },
-        })
+      HTTP.get("Medicines/GetAllMedicines", {
+        // params: {
+        //   pageSize: this.resultPage.pageSize,
+        //   pageIndex: this.resultPage.pageNumber,
+        // },
+      })
         .then((response) => {
           this.medicines = response.data;
           console.log(this.medicines);
@@ -223,10 +222,9 @@ export default {
     },
     async createMedicine() {
       // eslint-disable-next-line no-unused-vars
-      const respone = await axios
-        .post("Medicines", JSON.stringify(this.medicineModel), {
-          headers: { "Content-Type": "application/json; charset=utf8" },
-        })
+      HTTP.post("Medicines", JSON.stringify(this.medicineModel), {
+        headers: { "Content-Type": "application/json; charset=utf8" },
+      })
         .then((respone) => {
           console.log(respone);
         })
@@ -238,14 +236,13 @@ export default {
     },
     async updateMedicine() {
       // eslint-disable-next-line no-unused-vars
-      const respone = await axios
-        .put(
-          "Medicines/" + this.selectedMedicine.id,
-          JSON.stringify(this.medicineModel),
-          {
-            headers: { "Content-Type": "application/json; charset=utf8" },
-          }
-        )
+      HTTP.put(
+        "Medicines/" + this.selectedMedicine.id,
+        JSON.stringify(this.medicineModel),
+        {
+          headers: { "Content-Type": "application/json; charset=utf8" },
+        }
+      )
         .then((respone) => {
           console.log(respone);
         })
@@ -274,8 +271,7 @@ export default {
         acceptClass: "p-button-danger",
         accept: async () => {
           // eslint-disable-next-line no-unused-vars
-          const response = await axios
-            .put("Medicines/DeleteMedicine/" + id)
+          HTTP.put("Medicines/DeleteMedicine/" + id)
             .then((response) => {
               console.log(response);
               this.$toast.add({
@@ -313,9 +309,7 @@ export default {
         icon: "pi pi-info-circle",
         acceptClass: "p-button-success",
         accept: async () => {
-          // eslint-disable-next-line no-unused-vars
-          const response = await axios
-            .put("Medicines/RestoreMedicne?id=" + id)
+          HTTP.put("Medicines/RestoreMedicne?id=" + id)
             .then((response) => {
               console.log(response);
               this.$toast.add({

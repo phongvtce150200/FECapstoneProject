@@ -419,7 +419,7 @@
 </style>
 <script>
 //import puppeteer from "puppeteer";
-import axios from "axios";
+import { HTTP } from "@/axios";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 export default {
   data() {
@@ -466,16 +466,11 @@ export default {
   methods: {
     async getQueue() {
       // eslint-disable-next-line no-unused-vars
-      const repsone = await axios
-        .get("Queue", {
-          params: {
-            doctorId: window.localStorage.getItem("DoctorId"),
-          },
-          headers: {
-            "Content-Type": "application/json; charset=utf8",
-            "Access-Control-Allow-Origin": "*",
-          },
-        })
+      HTTP.get("Queue", {
+        params: {
+          doctorId: window.localStorage.getItem("DoctorId"),
+        },
+      })
         .then((response) => {
           this.queue = response.data;
           console.log(this.queue);
@@ -486,10 +481,9 @@ export default {
     },
     async getMedicine() {
       // eslint-disable-next-line no-unused-vars
-      const repsone = await axios
-        .get("Medicines/GetAllMedicines")
+      HTTP.get("Medicines/GetAllMedicines")
         .then((response) => {
-          this.medicines = response.data.data;
+          this.medicines = response.data;
         })
         .catch((error) => {
           console.log(error);

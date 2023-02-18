@@ -107,9 +107,11 @@
       />
     </template>
   </Dialog>
+  <ConfirmDialog></ConfirmDialog>
+  <Toast />
 </template>
 <script>
-import axios from "axios";
+import { HTTP } from "@/axios";
 import { FilterMatchMode } from "primevue/api";
 export default {
   data() {
@@ -143,8 +145,7 @@ export default {
   methods: {
     async getAllService() {
       // eslint-disable-next-line no-unused-vars
-      const respone = await axios
-        .get("Services")
+      HTTP.get("Services")
         .then((response) => {
           this.services = response.data;
           console.log(this.services);
@@ -178,11 +179,9 @@ export default {
       this.servicesModel.servicePrice = "";
     },
     async createService() {
-      // eslint-disable-next-line no-unused-vars
-      const respone = await axios
-        .post("Services", JSON.stringify(this.servicesModel), {
-          headers: { "Content-Type": "application/json; charset=utf8" },
-        })
+      HTTP.post("Services", JSON.stringify(this.servicesModel), {
+        headers: { "Content-Type": "application/json; charset=utf8" },
+      })
         .then((respone) => {
           console.log(respone);
         })
@@ -193,15 +192,13 @@ export default {
       this.getAllService();
     },
     async updateService() {
-      // eslint-disable-next-line no-unused-vars
-      const respone = await axios
-        .put(
-          "Services/" + this.selectedService.id,
-          JSON.stringify(this.servicesModel),
-          {
-            headers: { "Content-Type": "application/json; charset=utf8" },
-          }
-        )
+      HTTP.put(
+        "Services/" + this.selectedService.id,
+        JSON.stringify(this.servicesModel),
+        {
+          headers: { "Content-Type": "application/json; charset=utf8" },
+        }
+      )
         .then((respone) => {
           console.log(respone);
         })
@@ -210,6 +207,83 @@ export default {
         });
       this.closeModal();
       this.getAllService();
+    },
+    deleteService(id) {
+      this.$confirm.require({
+        message: "Do you want to delete this record?",
+        header: "Delete Confirmation",
+        icon: "pi pi-info-circle",
+        acceptClass: "p-button-danger",
+        accept: async () => {
+          // eslint-disable-next-line no-unused-vars
+          HTTP.put("Services/DeleteService/" + id)
+            .then((response) => {
+              console.log(response);
+              this.$toast.add({
+                severity: "info",
+                summary: "Confirmed",
+                detail: "Record deleted",
+                life: 3000,
+              });
+              this.getAllService();
+            })
+            .catch((error) => {
+              console.log(error);
+              this.$toast.add({
+                severity: "warn",
+                summary: "Warn Message",
+                detail: "Message Content",
+                life: 3000,
+              });
+            });
+        },
+        reject: () => {
+          this.$toast.add({
+            severity: "error",
+            summary: "Rejected",
+            detail: "You have rejected",
+            life: 3000,
+          });
+        },
+      });
+    },
+    restoreService(id) {
+      this.$confirm.require({
+        message: "Do you want to restore this record?",
+        header: "Restore Confirmation",
+        icon: "pi pi-info-circle",
+        acceptClass: "p-button-success",
+        accept: async () => {
+          HTTP.put("Services/RestoreService/" + id)
+            .then((response) => {
+              console.log(response);
+              this.$toast.add({
+                severity: "info",
+                summary: "Confirmed",
+                detail: "Record has been restore",
+                life: 3000,
+              });
+              this.getAllService();
+            })
+            .catch((error) => {
+              console.log(error);
+              this.$toast.add({
+                severity: "warn",
+                summary: "Warn Message",
+                detail: "Message Content",
+                life: 3000,
+              });
+            });
+        },
+        reject: () => {
+          this.$toast.add({
+            severity: "error",
+            summary: "Rejected",
+            detail: "You have rejected",
+            life: 3000,
+          });
+        },
+      });
     },
   },
 };

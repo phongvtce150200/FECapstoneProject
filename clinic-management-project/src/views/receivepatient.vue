@@ -245,7 +245,7 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+import { HTTP } from "@/axios";
 import { ref } from "vue";
 export default {
   created() {
@@ -278,11 +278,9 @@ export default {
   },
   methods: {
     async getPatient() {
-      // eslint-disable-next-line no-unused-vars
-      const repsone = await axios
-        .get("Patient/GetAllPatient")
+      HTTP.get("Patient/GetAllPatient")
         .then((response) => {
-          this.patients = response.data.data;
+          this.patients = response.data;
         })
         .catch((error) => {
           console.log(error);
@@ -325,16 +323,9 @@ export default {
       );
     },
     async getAllDoctor() {
-      // eslint-disable-next-line no-unused-vars
-      const repsone = await axios
-        .get("Doctor/GetAllDoctor", {
-          headers: {
-            "Content-Type": "application/json; charset=utf8",
-            "Access-Control-Allow-Origin": "*",
-          },
-        })
+      HTTP.get("Doctor/GetAllDoctor")
         .then((response) => {
-          this.doctors = response.data.data;
+          this.doctors = response.data;
         })
         .catch((error) => {
           console.log(error);
@@ -343,11 +334,7 @@ export default {
     async createQueue(e) {
       e.preventDefault();
       console.log(this.queue);
-      // eslint-disable-next-line no-unused-vars
-      const respone = await axios
-        .post("Queue", JSON.stringify(this.queue), {
-          headers: { "Content-Type": "application/json; charset=utf8" },
-        })
+      HTTP.post("Queue", JSON.stringify(this.queue))
         .then((respone) => {
           console.log(respone);
         })
