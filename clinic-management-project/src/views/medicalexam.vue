@@ -68,14 +68,12 @@
         "
       >
         <button
-          :class="{
-            disable: prescription.length < 0 || this.fullname == null,
-          }"
           id="saveAndPrintBtn"
           data-bs-toggle="modal"
           data-bs-target="#printModal"
           class="btn btn-success"
           style="margin-bottom: 20px"
+          @click="openNewTab"
         >
           Save and Print
         </button>
@@ -343,10 +341,18 @@
           </div>
           <h2 class="text-center mt-3">Presciption</h2>
           <div class="d-flex justify-content-between mt-3">
-            <small>Patient Name: {{ this.fullName }} </small>
-            <small>Gender: {{ this.gender }} </small>
-            <small>Age: {{ this.Age }} </small>
-            <small>Address: {{ this.address }} </small>
+            <small
+              >Patient Name: <b>{{ this.fullName }}</b>
+            </small>
+            <small
+              >Gender: <b>{{ this.gender }}</b>
+            </small>
+            <small
+              >Age: <b>{{ this.Age }}</b>
+            </small>
+            <small
+              >Address: <b>{{ this.address }} </b>
+            </small>
           </div>
           <div>
             <table class="table table-striped">
@@ -430,7 +436,7 @@ export default {
       medicines: [],
       prescription: [],
       doctorName: localStorage.getItem("fullName"),
-      fullName: "",
+      fullName: null,
       birthDay: "",
       address: "",
       gender: "",
@@ -542,6 +548,79 @@ export default {
     },
     emptyMedicineInPrescription() {
       this.prescription = [];
+    },
+    openNewTab() {
+      const printWindow = window.open("", "_blank", "width=400,height=500");
+      printWindow.document.write(` <html>
+          <head>
+            <title>Prescription</title>
+            <style>
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: white;
+              }
+              h1 {
+                text-align: center;
+                margin-top: 30px;
+                margin-bottom: 20px;
+                font-size: 32px;
+                font-weight: bold;
+              }
+              table {
+                border-collapse: collapse;
+                width: 100%;
+                margin-bottom: 30px;
+              }
+              table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+              }
+              .print-btn {
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                margin: 20px;
+                padding: 10px 20px;
+                background-color: #2196f3;
+                color: white;
+                font-size: 18px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                display: block;
+              }
+              @media print {
+                button.print-btn {
+                display: none;
+                }
+              }
+            </style>
+          </head>
+          <body>
+            <h1>Prescription</h1>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Medication A</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <td>Medication B</td>
+                  <td>5</td>
+                </tr>
+              </tbody>
+            </table>
+            <button onclick="window.print()" class="print-btn">Print</button>
+          </body>
+        </html>`);
+      printWindow.document.close();
     },
   },
 };
