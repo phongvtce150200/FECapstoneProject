@@ -68,9 +68,6 @@
         "
       >
         <button
-          :class="{
-            disable: prescription.length < 0 || this.fullname == null,
-          }"
           id="saveAndPrintBtn"
           data-bs-toggle="modal"
           data-bs-target="#printModal"
@@ -228,13 +225,17 @@
           <tr v-for="(item, index) in prescription" :key="item.id">
             <td>{{ item.medicineName }}</td>
             <td>
-              <input type="text" class="form-control" v-model="usingDay" />
+              <input
+                type="text"
+                class="form-control"
+                v-model="item.usingTime"
+              />
             </td>
             <td>
-              <input type="text" class="form-control" v-model="usingTime" />
+              <input type="text" class="form-control" v-model="item.perTime" />
             </td>
             <td>
-              <input type="text" class="form-control" v-model="usingMethod" />
+              <input type="text" class="form-control" v-model="item.method" />
             </td>
             <td>
               <a
@@ -343,10 +344,18 @@
           </div>
           <h2 class="text-center mt-3">Presciption</h2>
           <div class="d-flex justify-content-between mt-3">
-            <small>Patient Name: {{ this.fullName }} </small>
-            <small>Gender: {{ this.gender }} </small>
-            <small>Age: {{ this.Age }} </small>
-            <small>Address: {{ this.address }} </small>
+            <small
+              >Patient Name: <b>{{ this.fullName }}</b>
+            </small>
+            <small
+              >Gender: <b>{{ this.gender }}</b>
+            </small>
+            <small
+              >Age: <b>{{ this.Age }}</b>
+            </small>
+            <small
+              >Address: <b>{{ this.address }} </b>
+            </small>
           </div>
           <div>
             <table class="table table-striped">
@@ -364,8 +373,8 @@
                   <td>{{ ++index }}</td>
                   <td>{{ item.medicineName }}</td>
                   <td>{{ item.usingTime }}</td>
-                  <td>{{ item.usingDay }}</td>
-                  <td>{{ item.usingMethod }}</td>
+                  <td>{{ item.perTime }}</td>
+                  <td>{{ item.method }}</td>
                 </tr>
               </tbody>
             </table>
@@ -392,7 +401,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button @click="generatePDF" type="button" class="btn btn-primary">
+          <button @click="openNewTab" type="button" class="btn btn-primary">
             Print
           </button>
         </div>
@@ -430,7 +439,7 @@ export default {
       medicines: [],
       prescription: [],
       doctorName: localStorage.getItem("fullName"),
-      fullName: "",
+      fullName: null,
       birthDay: "",
       address: "",
       gender: "",
@@ -462,6 +471,14 @@ export default {
         });
       })
       .catch((error) => console.error(error));
+  },
+  watch: {
+    prescription: {
+      handler: function Change(text) {
+        console.log(text);
+      },
+    },
+    deep: true,
   },
   methods: {
     async getQueue() {
@@ -519,8 +536,25 @@ export default {
       var element =
         document.getElementsByClassName("btnAddMedicine")[objWithIdIndex];
       element.classList.add("disable");
-
-      this.prescription.push(item);
+      var data = {
+        amount: item.amount,
+        createdBy: item.createdBy,
+        createdDate: item.createdDate,
+        deletedDate: item.deletedDate,
+        description: item.description,
+        expiration: item.expiration,
+        id: item.id,
+        isDelete: item.isDelete,
+        medicineName: item.medicineName,
+        price: item.price,
+        updatedBy: item.updatedBy,
+        updatedDate: item.updatedDate,
+        usingTime: null,
+        perTime: null,
+        method: null,
+      };
+      console.log(data);
+      this.prescription.push(data);
       console.log(this.prescription);
     },
     deleteMedicineInPrescription(index, item) {
@@ -542,6 +576,79 @@ export default {
     },
     emptyMedicineInPrescription() {
       this.prescription = [];
+    },
+    openNewTab() {
+      const printWindow = window.open("", "_blank", "width=400,height=500");
+      printWindow.document.write(` <html>
+          <head>
+            <title>Prescription</title>
+            <style>
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: white;
+              }
+              h1 {
+                text-align: center;
+                margin-top: 30px;
+                margin-bottom: 20px;
+                font-size: 32px;
+                font-weight: bold;
+              }
+              table {
+                border-collapse: collapse;
+                width: 100%;
+                margin-bottom: 30px;
+              }
+              table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+              }
+              .print-btn {
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                margin: 20px;
+                padding: 10px 20px;
+                background-color: #2196f3;
+                color: white;
+                font-size: 18px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                display: block;
+              }
+              @media print {
+                button.print-btn {
+                display: none;
+                }
+              }
+            </style>
+          </head>
+          <body>
+            <h1>Prescription</h1>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Medication A</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <td>Medication B</td>
+                  <td>5</td>
+                </tr>
+              </tbody>
+            </table>
+            <button onclick="window.print()" class="print-btn">Print</button>
+          </body>
+        </html>`);
+      printWindow.document.close();
     },
   },
 };
