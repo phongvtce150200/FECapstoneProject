@@ -73,7 +73,6 @@
           data-bs-target="#printModal"
           class="btn btn-success"
           style="margin-bottom: 20px"
-          @click="openNewTab"
         >
           Save and Print
         </button>
@@ -226,13 +225,17 @@
           <tr v-for="(item, index) in prescription" :key="item.id">
             <td>{{ item.medicineName }}</td>
             <td>
-              <input type="text" class="form-control" v-model="usingDay" />
+              <input
+                type="text"
+                class="form-control"
+                v-model="item.usingTime"
+              />
             </td>
             <td>
-              <input type="text" class="form-control" v-model="usingTime" />
+              <input type="text" class="form-control" v-model="item.perTime" />
             </td>
             <td>
-              <input type="text" class="form-control" v-model="usingMethod" />
+              <input type="text" class="form-control" v-model="item.method" />
             </td>
             <td>
               <a
@@ -370,8 +373,8 @@
                   <td>{{ ++index }}</td>
                   <td>{{ item.medicineName }}</td>
                   <td>{{ item.usingTime }}</td>
-                  <td>{{ item.usingDay }}</td>
-                  <td>{{ item.usingMethod }}</td>
+                  <td>{{ item.perTime }}</td>
+                  <td>{{ item.method }}</td>
                 </tr>
               </tbody>
             </table>
@@ -398,7 +401,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button @click="generatePDF" type="button" class="btn btn-primary">
+          <button @click="openNewTab" type="button" class="btn btn-primary">
             Print
           </button>
         </div>
@@ -469,6 +472,14 @@ export default {
       })
       .catch((error) => console.error(error));
   },
+  watch: {
+    prescription: {
+      handler: function Change(text) {
+        console.log(text);
+      },
+    },
+    deep: true,
+  },
   methods: {
     async getQueue() {
       // eslint-disable-next-line no-unused-vars
@@ -525,8 +536,25 @@ export default {
       var element =
         document.getElementsByClassName("btnAddMedicine")[objWithIdIndex];
       element.classList.add("disable");
-
-      this.prescription.push(item);
+      var data = {
+        amount: item.amount,
+        createdBy: item.createdBy,
+        createdDate: item.createdDate,
+        deletedDate: item.deletedDate,
+        description: item.description,
+        expiration: item.expiration,
+        id: item.id,
+        isDelete: item.isDelete,
+        medicineName: item.medicineName,
+        price: item.price,
+        updatedBy: item.updatedBy,
+        updatedDate: item.updatedDate,
+        usingTime: null,
+        perTime: null,
+        method: null,
+      };
+      console.log(data);
+      this.prescription.push(data);
       console.log(this.prescription);
     },
     deleteMedicineInPrescription(index, item) {

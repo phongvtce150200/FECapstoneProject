@@ -67,8 +67,9 @@
               readonly
             /> -->
             <!-- chỗ này xài watch -->
+            <!-- {{ this.queue }} -->
             <AutoComplete
-              v-model="queue.fullName"
+              v-model="queueDetails"
               :suggestions="filteredPatients"
               @complete="searchPatient($event)"
               optionLabel="user.fullName"
@@ -119,7 +120,7 @@
             Pulse:
             <input
               type="number"
-              v-model="queue.Pulse"
+              v-model="inputQueue.Pulse"
               placeholder="bpm"
               class="form-control"
               style="width: 82px"
@@ -128,7 +129,7 @@
             Blood Pressure:
             <input
               type="number"
-              v-model="queue.BloodPressure"
+              v-model="inputQueue.BloodPressure"
               placeholder="mmHg"
               class="form-control"
               style="width: 82px"
@@ -137,7 +138,7 @@
             Temperature:
             <input
               type="number"
-              v-model="queue.Tempurature"
+              v-model="inputQueue.Tempurature"
               placeholder="°C"
               class="form-control"
               style="width: 82px"
@@ -146,7 +147,7 @@
             Weight:
             <input
               type="number"
-              v-model="queue.Weight"
+              v-model="inputQueue.Weight"
               placeholder="Kg"
               class="form-control"
               style="width: 82px"
@@ -155,14 +156,21 @@
             Height:
             <input
               type="number"
-              v-model="queue.Height"
+              v-model="inputQueue.Height"
               placeholder="Cm"
               class="form-control"
               style="width: 82px"
               id="requestQueue"
             />
             Doctor:
-            <select
+            <Dropdown
+              v-model="doctor.doctorId"
+              :options="doctors"
+              optionValue="id"
+              optionLabel="fullName"
+              placeholder="Select a City"
+            />
+            <!-- <select
               v-model="queue.doctorId"
               class="form-control"
               id="requestQueue"
@@ -175,7 +183,7 @@
               >
                 {{ option.user.fullName }}
               </option>
-            </select>
+            </select> -->
           </td>
         </tr>
       </tbody>
@@ -190,7 +198,7 @@
                   <p>Appoitment Schedule of Doctor</p>
                   <div class="d-flex">
                     <p>Doctor:</p>
-                    <select v-model="idDoctor" class="form-control">
+                    <!-- <select v-model="idDoctor" class="form-control">
                       <option
                         v-for="(option, index) in doctors"
                         :value="option.id"
@@ -198,7 +206,7 @@
                       >
                         {{ option.user.fullName }}
                       </option>
-                    </select>
+                    </select> -->
                   </div>
                 </div>
               </th>
@@ -271,15 +279,25 @@ export default {
         address: "",
         gender: "",
         phoneNumber: "",
+      },
+      doctor: {
+        doctorId: null,
+      },
+      inputQueue: {
         Pulse: "",
         BloodPressure: "",
         Tempurature: "",
         Weight: "",
         Height: "",
-        doctorId: "",
       },
       filteredPatients: null,
+      queueDetails: null,
     };
+  },
+  beforeUpdate() {
+    if (this.queueDetails != null) {
+      this.queue = { ...this.queueDetails.user };
+    }
   },
   methods: {
     async getPatient() {
@@ -329,8 +347,16 @@ export default {
     },
     async getAllDoctor() {
       HTTP.get("Doctor/GetAllDoctor")
-        .then((response) => {
-          this.doctors = response.data;
+        .then((res) => {
+          console.log(res.data);
+          res.data.forEach((el) => {
+            this.doctors.push({
+              experience: el.experience,
+              id: el.id,
+              fullName: el.user.fullName,
+            });
+          });
+          console.log(this.doctors);
         })
         .catch((error) => {
           console.log(error);
@@ -338,14 +364,30 @@ export default {
     },
     async createQueue(e) {
       e.preventDefault();
+      var data = {
+        patientid: this.queue.id,
+        fullName: this.queue.fullName,
+        birthDay: this.queue.birthDay,
+        address: this.queue.address,
+        gender: this.queue.gender,
+        phoneNumber: this.queue.phoneNumber,
+        Pulse: this.inputQueue.Pulse,
+        BloodPressure: this.inputQueue.BloodPressure,
+        Tempurature: this.inputQueue.Tempurature,
+        Weight: this.inputQueue.Weight,
+        Height: this.inputQueue.Height,
+        doctorId: this.doctor.doctorId,
+      };
+      console.log(data);
       console.log(this.queue);
-      HTTP.post("Queue", JSON.stringify(this.queue))
-        .then((respone) => {
-          console.log(respone);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+
+      // HTTP.post("Queue", JSON.stringify(this.queue))
+      //   .then((respone) => {
+      //     console.log(respone);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
     },
     async searchPatient(event) {
       setTimeout(() => {
