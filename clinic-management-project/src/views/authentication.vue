@@ -126,7 +126,7 @@
 </template>
 <style scoped src="../assets/style/authentication.css"></style>
 <script>
-import axios from "axios";
+import { HTTP } from "@/axios";
 import { inject } from "vue";
 import { ref } from "vue";
 export default {
@@ -171,32 +171,27 @@ export default {
     // },
     async handleLogin() {
       // eslint-disable-next-line no-unused-vars
-      const respone = await axios
-        .post("Authentication/Login", {
-          userName: this.loginData.userName,
-          password: this.loginData.password,
-        })
-        .then((respone) => {
-          localStorage.setItem("token", respone.data.token);
-          localStorage.setItem("fullName", respone.data.fullName);
-          localStorage.setItem("role", respone.data.role);
-          if (respone.data.role == "Doctor") {
-            localStorage.setItem("DoctorId", respone.data.doctorId);
-          }
-          if (respone.data.role == "Nurse") {
-            localStorage.setItem("NurseId", respone.data.nurseId);
-          }
-          localStorage.setItem("usId", respone.data.id);
-        });
+      HTTP.post("Authentication/Login", {
+        userName: this.loginData.userName,
+        password: this.loginData.password,
+      }).then((respone) => {
+        localStorage.setItem("token", respone.data.token);
+        localStorage.setItem("fullName", respone.data.fullName);
+        localStorage.setItem("role", respone.data.role);
+        if (respone.data.role == "Doctor") {
+          localStorage.setItem("DoctorId", respone.data.doctorId);
+        }
+        if (respone.data.role == "Nurse") {
+          localStorage.setItem("NurseId", respone.data.nurseId);
+        }
+        localStorage.setItem("usId", respone.data.id);
+      });
       this.$router.push({ name: "home", params: {} });
     },
     async handleRegister(e) {
       e.preventDefault();
       // eslint-disable-next-line no-unused-vars
-      const respone = await axios
-        .post("Authentication/Register", JSON.stringify(this.registerData), {
-          headers: { "Content-Type": "application/json; charset=utf8" },
-        })
+      HTTP.post("Authentication/Register", JSON.stringify(this.registerData))
         .then((respone) => {
           console.log(respone);
         })

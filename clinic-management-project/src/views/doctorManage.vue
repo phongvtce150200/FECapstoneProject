@@ -68,15 +68,6 @@
         <Column field="experience" header="Experience">
           <template #body="{ data }"> {{ data.experience + " Year" }}</template>
         </Column>
-        <Column field="qualification" header="Qualification">
-          <template #body="{ data }">
-            <!-- chưa xử lý -->
-            <Button
-              icon="fa-sharp fa-solid fa-eye"
-              class="p-button-outlined p-button-info"
-              @click="alo(data)"
-          /></template>
-        </Column>
         <Column field="actions" header="Actions">
           <template #body="{ data }">
             <div class="d-flex">
