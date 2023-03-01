@@ -1,75 +1,136 @@
 <template>
   <div>
-    <button
-      class="btn btn-success"
-      data-bs-toggle="modal"
-      data-bs-target="#exampleModal"
+    <DataTable
+      :value="presciptions"
+      :paginator="true"
+      :rows="5"
+      :rowHover="true"
+      :loading="loading"
+      paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+      :rowsPerPageOptions="[5, 10, 20, 50]"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      responsiveLayout="scroll"
+      filterDisplay="menu"
     >
-      Create new Medicine
-    </button>
+      <template #header>
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="m-0">Presciption Manage</h5>
+          <span class="p-input-icon-left">
+            <i class="pi pi-search" />
+            <InputText placeholder="Keyword Search" />
+          </span>
+        </div>
+      </template>
+      <template #empty> No project found. </template>
+      <template #loading>
+        <ProgressSpinner />
+      </template>
+      <div>
+        <Column field="doctorName" header="Doctor Name">
+          <template #body="{ data }">
+            {{ data.doctorName }}
+          </template>
+        </Column>
+        <Column field="patientName" header="Patient Name">
+          <template #body="{ data }"> {{ data.patientName }} </template>
+        </Column>
+        <Column field="createdDate" header="Create Date">
+          <template #body="{ data }"> {{ data.createdDate }} </template>
+        </Column>
+        <Column field="details" header="Details Of Prescription">
+          <template #body="{ data }">
+            <Button
+              icon="pi pi-eye"
+              @click="OpenDetailsDialog(data.prescriptionDetails)"
+            />
+          </template>
+        </Column>
+      </div>
+    </DataTable>
   </div>
-
-  <hr />
-  <div>
-    <table class="table table-hover text-center" id="example">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Medicine Name</th>
-          <th scope="col">Price</th>
-          <th scope="col">Expiration</th>
-          <th scope="col">Amount</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody id="medicineBody">
-        <tr>
-          <td>@item.medicineId</td>
-          <td>@item.medicineName</td>
-          <td>@item.price</td>
-          <td>@item.expiration.ToShortDateString()</td>
-          <td>@item.amount</td>
-          <td>
-            <button
-              class="btn btn-warning me-2"
-              data-bs-toggle="modal"
-              data-bs-target="#EditexampleModal"
-              name="test"
-            >
-              Edit
-            </button>
-            <button
-              class="btn btn-danger"
-              data-bs-toggle="modal"
-              data-bs-target="#DeleteexampleModal"
-              name="delete"
-            >
-              Delete
-            </button>
-            <input type="hidden" asp-for="@item.medicineId" />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <Dialog
+    header="Presciption Details"
+    v-model:visible="showDetails"
+    :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
+    :style="{ width: '50vw' }"
+    :maximizable="true"
+    :modal="true"
+  >
+    <div class="container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Medicine Name</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Using Day</th>
+            <th scope="col">Times Per Day</th>
+            <th scope="col">Type</th>
+            <th scope="col">Session</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody v-for="(item, index) in prescriptionDetails" :key="index">
+          <tr>
+            <th scope="row">{{ ++index }}</th>
+            <td>{{ item.medicine.medicineName }}</td>
+            <td>{{ item.medicineAmount }}</td>
+            <td>{{ item.usingDay }}</td>
+            <td>{{ item.timesPerDay }}</td>
+            <td>{{ item.usingType }}</td>
+            <td>{{ item.session }}</td>
+            <td>{{ item.description }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </Dialog>
 </template>
 <script>
+import { HTTP } from "@/axios";
 export default {
   data() {
     return {
-      presciptions: [
-        { brand: "Volkswagen", year: 2012, color: "Orange", vin: "dsad231ff" },
-        { brand: "Audi", year: 2011, color: "Black", vin: "gwregre345" },
-        { brand: "Renault", year: 2005, color: "Gray", vin: "h354htr" },
-        { brand: "BMW", year: 2003, color: "Blue", vin: "j6w54qgh" },
-        { brand: "Mercedes", year: 1995, color: "Orange", vin: "hrtwy34" },
-        { brand: "Volvo", year: 2005, color: "Black", vin: "jejtyj" },
-        { brand: "Honda", year: 2012, color: "Yellow", vin: "g43gr" },
-        { brand: "Jaguar", year: 2013, color: "Orange", vin: "greg34" },
-        { brand: "Ford", year: 2000, color: "Black", vin: "h54hw5" },
-        { brand: "Fiat", year: 2013, color: "Red", vin: "245t2s" },
-      ],
+      presciptions: [],
+      showDetails: false,
+      prescriptionDetails: [],
+      loading: false,
     };
+  },
+  created() {
+    this.getallPrescription();
+  },
+  methods: {
+    async getallPrescription() {
+      this.loading = true;
+      await HTTP.get("Prescription/GetAllPrescriptions")
+        .then((res) => {
+          this.presciptions = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.getDoctorNameInPrescription();
+      this.loading = false;
+    },
+    async getDoctorNameInPrescription() {
+      for (let i = 0; i < this.presciptions.length; i++) {
+        if (this.presciptions[i].appointmentId != 0) {
+          var Name = await HTTP.get(
+            "Appointment?id=" + this.presciptions[i].appointmentId
+          );
+          this.presciptions[i].doctorName = Name.data.Doctor.User.FullName;
+          this.presciptions[i].patientName = Name.data.Patient.User.FullName;
+          this.presciptions[i].createdDate = Name.data.CreatedDate;
+        } else {
+          this.presciptions[i].doctorName = "";
+        }
+      }
+    },
+    OpenDetailsDialog(data) {
+      this.showDetails = true;
+      this.prescriptionDetails = data;
+    },
   },
 };
 </script>
