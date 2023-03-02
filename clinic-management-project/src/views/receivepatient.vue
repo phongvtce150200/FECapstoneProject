@@ -59,15 +59,6 @@
         <tr>
           <td class="d-flex justify-content-between">
             Full Name:
-            <!-- <input
-              v-model="queue.fullName"
-              type="text"
-              class="form-control"
-              id="requestQueue"
-              readonly
-            /> -->
-            <!-- chỗ này xài watch -->
-            <!-- {{ this.queue }} -->
             <AutoComplete
               v-model="queueDetails"
               :suggestions="filteredPatients"
@@ -168,7 +159,7 @@
               :options="doctors"
               optionValue="id"
               optionLabel="fullName"
-              placeholder="Select a City"
+              placeholder="Select a Doctor"
             />
             <!-- <select
               v-model="queue.doctorId"
@@ -207,6 +198,13 @@
                         {{ option.user.fullName }}
                       </option>
                     </select> -->
+                    <Dropdown
+                      v-model="idDoctor"
+                      :options="doctors"
+                      optionValue="id"
+                      optionLabel="fullName"
+                      placeholder="Select a Doctor"
+                    />
                   </div>
                 </div>
               </th>
@@ -297,6 +295,9 @@ export default {
   beforeUpdate() {
     if (this.queueDetails != null) {
       this.queue = { ...this.queueDetails.user };
+      console.log(this.queue);
+      this.queue.birthDay = this.dateToYMD(this.queue.birthDay);
+      this.queue.patientid = this.queueDetails.id;
     }
   },
   methods: {
@@ -309,32 +310,13 @@ export default {
           console.log(error);
         });
     },
-    setData(index) {
-      this.queue.patientid = this.patients[index].id;
-      this.queue.fullName = this.patients[index].user.fullName;
-      this.queue.address = this.patients[index].user.address;
-      this.queue.phoneNumber = this.patients[index].user.phoneNumber;
-      this.queue.gender = this.patients[index].user.gender;
-      this.queue.birthDay = this.dateToYMD(this.patients[index].user.birthDay);
-    },
-    // search() {
-    //   if (this.timer) {
-    //     clearTimeout(this.timer);
-    //     this.timer = null;
-    //   }
-    //   this.timer = setTimeout(() => {
-    //     let result = this.patients;
-    //     if (!this.keyword) {
-    //       return this.getPatient();
-    //     }
-    //     const filterValue = this.keyword.toLowerCase();
-    //     const searchRegex = new RegExp(filterValue, "iu");
-    //     result = this.patients.filter(
-    //       (event) => !filterValue || searchRegex.test(event.fullName)
-    //     );
-    //     console.log(result);
-    //     return (this.patients = result);
-    //   }, 100);
+    // setData(index) {
+    //   this.queue.patientid = this.patients[index].id;
+    //   this.queue.fullName = this.patients[index].user.fullName;
+    //   this.queue.address = this.patients[index].user.address;
+    //   this.queue.phoneNumber = this.patients[index].user.phoneNumber;
+    //   this.queue.gender = this.patients[index].user.gender;
+    //   this.queue.birthDay = this.dateToYMD(this.patients[index].user.birthDay);
     // },
     dateToYMD(end_date) {
       var ed = new Date(end_date);
@@ -348,7 +330,6 @@ export default {
     async getAllDoctor() {
       HTTP.get("Doctor/GetAllDoctor")
         .then((res) => {
-          console.log(res.data);
           res.data.forEach((el) => {
             this.doctors.push({
               experience: el.experience,
@@ -356,16 +337,14 @@ export default {
               fullName: el.user.fullName,
             });
           });
-          console.log(this.doctors);
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    async createQueue(e) {
-      e.preventDefault();
+    async createQueue() {
       var data = {
-        patientid: this.queue.id,
+        patientid: this.queue.patientid,
         fullName: this.queue.fullName,
         birthDay: this.queue.birthDay,
         address: this.queue.address,
@@ -380,14 +359,13 @@ export default {
       };
       console.log(data);
       console.log(this.queue);
-
-      // HTTP.post("Queue", JSON.stringify(this.queue))
-      //   .then((respone) => {
-      //     console.log(respone);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
+      HTTP.post("Queue", data)
+        .then((respone) => {
+          console.log(respone);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     async searchPatient(event) {
       setTimeout(() => {
