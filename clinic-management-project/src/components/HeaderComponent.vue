@@ -26,7 +26,13 @@
           <li class="nav-item">
             <a href="#" class="nav-link">Our Doctor</a>
           </li>
-          <li class="nav-item"><a href="#" class="nav-link">About Us</a></li>
+          <li class="nav-item">
+            <router-link
+              :to="{ name: 'userProfile', params: {} }"
+              class="nav-link"
+              >User Profile
+            </router-link>
+          </li>
         </ul>
 
         <ul class="nav" v-if="!isLoggedIn">

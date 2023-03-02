@@ -49,7 +49,7 @@ import Avatar from "primevue/avatar";
 import Card from "primevue/card";
 import Breadcrumb from "primevue/breadcrumb";
 import InputSwitch from "primevue/inputswitch";
-
+import Image from "primevue/image";
 const emitter = mitt(); // Initialize mitt
 
 const app = createApp(App);
@@ -90,5 +90,6 @@ app.component("Card", Card);
 app.component("Breadcrumb", Breadcrumb);
 app.component("InputSwitch", InputSwitch);
 app.component("font-awesome-icon", FontAwesomeIcon);
+app.component("Image", Image);
 import "bootstrap/dist/js/bootstrap.js";
 app.mount("#app");

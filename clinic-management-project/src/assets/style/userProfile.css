@@ -1,0 +1,45 @@
+.card-top {
+  padding: 10px;
+}
+button {
+    text-align: center;
+    color: #fff;
+    background-color: rgb(196, 31, 31);
+    padding: .8rem 2.5rem;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: var(--smooth);
+}
+
+button:hover {
+    background-color: var(--redBlood);
+    transition: var(--smooth);
+}
+
+input {
+    background-color: #eee;
+    border: none;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    width: 100%;
+    height: 59px;
+    border-radius: 100px;
+    text-align: center;
+}
+
+input::placeholder {
+    text-align: center;
+}
+select{
+    background-color: #eee;
+    border: none;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    height: 59px;
+    border-radius: 100px;
+    text-align: center;
+}
+.col-md-9 {
+    border-left: 1px solid black;
+  }

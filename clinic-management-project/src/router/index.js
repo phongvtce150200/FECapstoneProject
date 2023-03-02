@@ -215,6 +215,29 @@ const routes = [
     component: () => import("../views/resetPassword.vue"),
     //beforeEnter: requireLogin,
   },
+  {
+    path: "/Register",
+    name: "Register",
+    meta: {
+      layout: "auth",
+    },
+    // meta: {
+    //   layout: "admin",
+    // },
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import("../views/register.vue"),
+    //beforeEnter: requireLogin,
+  },
+  {
+    path: "/UserProfile",
+    name: "userProfile",
+    meta: {
+      layout: "userProfile",
+    },
+    component: () => import("../views/userProfile.vue"),
+  },
 ];
 
 const router = createRouter({

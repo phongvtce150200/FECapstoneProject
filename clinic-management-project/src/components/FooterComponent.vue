@@ -32,3 +32,16 @@
     </div>
   </footer>
 </template>
+<style>
+.container {
+  min-height: 100%;
+  position: relative;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 200px; /* adjust to match the height of your footer */
+}
+</style>
