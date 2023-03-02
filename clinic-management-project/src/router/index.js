@@ -215,6 +215,47 @@ const routes = [
     component: () => import("../views/resetPassword.vue"),
     //beforeEnter: requireLogin,
   },
+  {
+    path: "/Register",
+    name: "Register",
+    meta: {
+      layout: "register",
+    },
+    component: () => import("../views/register.vue"),
+    //beforeEnter: requireLogin,
+  },
+  {
+    path: "/UserProfile",
+    name: "userProfile",
+    meta: {
+      layout: "userProfile",
+    },
+    component: () => import("../views/userProfile.vue"),
+  },
+  {
+    path: "/DoctorProfile",
+    name: "DoctorProfile",
+    meta: {
+      layout: "admin",
+    },
+    component: () => import("../views/doctorProfile.vue"),
+  },
+  {
+    path: "/NurseProfile",
+    name: "NurseProfile",
+    meta: {
+      layout: "admin",
+    },
+    component: () => import("../views/nurseProfile.vue"),
+  },
+  {
+    path: "/Login",
+    name: "Login",
+    meta: {
+      layout: "register",
+    },
+    component: () => import("../views/login.vue"),
+  },
 ];
 
 const router = createRouter({

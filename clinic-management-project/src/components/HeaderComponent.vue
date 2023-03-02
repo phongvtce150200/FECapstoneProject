@@ -31,12 +31,12 @@
 
         <ul class="nav" v-if="!isLoggedIn">
           <router-link
-            :to="{ name: 'Authentication', params: {} }"
+            :to="{ name: 'Login', params: {} }"
             class="nav-link"
             @click="isLogin"
             >Sign In</router-link
           >
-          <router-link :to="{ name: 'Authentication', params: {} }">
+          <router-link :to="{ name: 'Register', params: {} }">
             <button @click="isRegister">Register</button>
           </router-link>
         </ul>

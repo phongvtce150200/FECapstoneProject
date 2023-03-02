@@ -16,4 +16,12 @@ export function registerGlobalComponents(app) {
     "admin-layout",
     defineAsyncComponent(() => import("@/layout/admin"))
   );
+  app.component(
+    "userProfile-layout",
+    defineAsyncComponent(() => import("@/layout/userProfile"))
+  )
+  app.component(
+    "register-layout",
+    defineAsyncComponent(() => import("@/layout/register"))
+  )
 }
