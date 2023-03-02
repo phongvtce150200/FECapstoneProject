@@ -2,17 +2,26 @@
 <template>
   <!-- body -->
   <div class="container">
-    <!-- <div class="d-flex justify-content-start"> -->
-    <div class="row">
-      <div class="col-md-6">
+    <div class="row w-100">
+      <!-- Form Left -->
+      <div class="form-left col-sm-2 mt-4">
+        <h1>Sign up to track your health</h1>
+        <p>
+          if you have ready an account you can
+          <a href="#" class="Login-text" target="_blank">Login </a>here
+        </p>
+        <div class="text-span"></div>
+      </div>
+      <!-- Form Center -->
+      <div class="col-sm-4 form-center">
         <img
           src="@/assets/image/3636112-removebg-preview1.png"
           alt=""
           class="img-form-center"
         />
       </div>
-      <!-- <div class="d-flex justify-content-end"> -->
-      <div class="col-md-6">
+      <!-- Form Right -->
+      <div class="col-sm-4">
         <form>
           <div class="d-flex justify-content-center">
             <h2>Register for more</h2>
@@ -32,7 +41,7 @@
           </div>
           <div class="d-flex justify-content-around">
             <input type="text" placeholder="Address" />
-            <input type="text" placeholder="National ID" />
+            <input type="number" placeholder="National ID" />
           </div>
           <div class="d-flex justify-content-around">
             <input
@@ -61,4 +70,26 @@
     </div>
   </div>
 </template>
-<style src="../assets/style/register.css"></style>
+<style scoped src="../assets/style/authentication.css"></style>
+<script>
+// import { HTTP } from "@/axios";
+import { ref } from "vue";
+export default {
+  setup() {
+    let registerData = ref({
+      UserName: "",
+      Password: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      address: "",
+      birthday: "",
+      phoneNumber: "",
+      ConfirmPass: "",
+      gender: "",
+    });
+    return { registerData };
+  },
+  methods: {},
+};
+</script>

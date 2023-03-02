@@ -1,7 +1,71 @@
-.form-register button {
-  width: 100%;
+button {
+  text-align: center;
+  color: #fff;
+  background-color: rgb(196, 31, 31);
+  padding: .8rem 2.5rem;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: var(--smooth);
 }
 
+button:hover {
+  background-color: var(--redBlood);
+  transition: var(--smooth);
+}
+.form-left {
+  width: 400px;
+}
+.form-left h1 {
+  margin-top: 7rem;
+  position: relative;
+  margin-left: 4rem;
+  font-size: 35px;
+  width: 400px;
+  font-weight: 600;
+  color: #000;
+}
+.form-left p {
+  margin-left: 4rem;
+  margin-top: 1rem;
+  font-size: 20px;
+}
+.Login-text{
+  color: red;
+  text-decoration: none;
+}
+.text-span {
+  position: absolute;
+  width: 393.66px;
+  height: 253.05px;
+  left: 98.34px;
+  top: 300px;
+  color: #000;
+  background: rgba(237, 19, 5, 0.7);
+  filter: blur(156.534px);
+}
+.img-form-center {
+  position: absolute;
+  width: 300px;
+  height: 255px;
+  left: 532px;
+  top: 440px;
+}
+.form-register{
+display: none;
+}
+.form-register h2 {
+margin-bottom: 20px;
+font-size: 46px;
+font-weight: 400;
+line-height: 76px;
+}
+.form-login h2 {
+  margin-bottom: 20px;
+  font-size: 46px;
+  font-weight: 400;
+  line-height: 76px;
+}
 input {
   background-color: #eee;
   border: none;
@@ -16,7 +80,7 @@ input {
 input::placeholder {
   text-align: center;
 }
-select {
+select{
   background-color: #eee;
   border: none;
   padding: 12px 15px;
@@ -26,39 +90,9 @@ select {
   text-align: center;
 }
 
-.form-register {
-  display: none;
+.form-login button {
+  width: 100%;
 }
-.form-register h2 {
-  margin-bottom: 20px;
-  font-size: 46px;
-  font-weight: 400;
-  line-height: 76px;
-}
-
-.text-span {
-  position: absolute;
-  width: 393.66px;
-  height: 253.05px;
-  left: 98.34px;
-  top: 300px;
-  color: #000;
-  background: rgba(237, 19, 5, 0.7);
-  filter: blur(156.534px);
-}
-
-button {
-  text-align: center;
-  color: #fff;
-  background-color: rgb(196, 31, 31);
-  padding: 0.8rem 2.5rem;
-  border: none;
-  border-radius: 100px;
-  cursor: pointer;
-  transition: var(--smooth);
-}
-
-button:hover {
-  background-color: var(--redBlood);
-  transition: var(--smooth);
+.form-register button {
+width: 100%;
 }

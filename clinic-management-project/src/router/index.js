@@ -236,7 +236,7 @@ const routes = [
     path: "/DoctorProfile",
     name: "DoctorProfile",
     meta: {
-      layout: "userProfile",
+      layout: "admin",
     },
     component: () => import("../views/doctorProfile.vue"),
   },
@@ -244,9 +244,17 @@ const routes = [
     path: "/NurseProfile",
     name: "NurseProfile",
     meta: {
-      layout: "userProfile",
+      layout: "admin",
     },
     component: () => import("../views/nurseProfile.vue"),
+  },
+  {
+    path: "/Login",
+    name: "Login",
+    meta: {
+      layout: "register",
+    },
+    component: () => import("../views/login.vue"),
   },
 ];
 
