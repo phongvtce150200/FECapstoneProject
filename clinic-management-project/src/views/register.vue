@@ -1,127 +1,139 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <!-- body -->
   <div class="container">
-    <form
-      class="form-register mb-4"
-      :class="isRegister ? 'd-block' : 'd-none'"
-      @submit.prevent="handleRegister"
-    >
-      <h2>Register for more</h2>
-      <div class="d-flex justify-content-around">
-        <input
-          v-model="registerData.firstName"
-          type="text"
-          placeholder="First Name"
-        />
-        <input
-          v-model="registerData.lastName"
-          type="text"
-          placeholder="Last Name"
+    <div class="row">
+      <div class="col-md-3">
+        <!-- User profile picture -->
+        <Image
+          :src="require('@/assets/image/avt1.png')"
+          alt="Image"
+          preview
+          class="card-top"
         />
       </div>
-      <div class="d-flex justify-content-around">
-        <input v-model="registerData.email" type="email" placeholder="Email" />
-        <select name="" id="" v-model="registerData.gender">
-          <option value="" disabled selected>Gender</option>
-          <option value="1">Male</option>
-          <option value="0">Female</option>
-          <option value="2">Undefine</option>
-        </select>
+      <div class="col-md-9">
+        <!-- Profile editing form -->
+        <form @submit.prevent="handleSubmit">
+          <div class="form-group">
+            <h3>User Profile Settings</h3>
+            <div class="d-flex">
+              <!-- Left form component -->
+              <div class="p-2 flex-fill">
+                <div class="d-flex justify-content-around">
+                  <!-- First column -->
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="firstname"
+                    placeholder="First Name"
+                    v-model="firstname"
+                  />
+                  <!-- Second column -->
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="lastname"
+                    placeholder="Last Name"
+                    v-model="lastname"
+                  />
+                </div>
+                <div class="d-flex justify-content-around">
+                  <!-- First column -->
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="bday"
+                    placeholder="Date of Birth"
+                    onfocus="(this.type='date')"
+                    v-model="birthday"
+                  />
+                  <!-- Second column -->
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="phonenum"
+                    placeholder="Phone number"
+                    v-model="phoneNumber"
+                  />
+                </div>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="Email Address"
+                  v-model="email"
+                />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="address"
+                  placeholder="Address"
+                  v-model="address"
+                />
+              </div>
+              <!-- Right form component -->
+              <div class="p-2 flex-fill">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  placeholder="User Name"
+                  v-model="username"
+                />
+                <input
+                  type="password"
+                  class="form-control"
+                  id="pwd"
+                  placeholder="Password"
+                  v-model="password"
+                />
+                <input
+                  type="password"
+                  class="form-control"
+                  id="confirmPwd"
+                  placeholder="Confirm Password"
+                  v-model="confirmPassword"
+                />
+                <button type="submit" class="btn btn-primary w-100">
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
-
-      <input v-model="registerData.address" type="text" placeholder="Address" />
-
-      <div class="d-flex justify-content-around">
-        <input
-          v-model="registerData.birthday"
-          placeholder="Birth date"
-          class="textbox-n"
-          type="text"
-          onfocus="(this.type='date')"
-          id="date"
-        />
-        <input
-          v-model="registerData.phoneNumber"
-          type="text"
-          placeholder="Phone Number"
-        />
-      </div>
-      <input
-        v-model="registerData.UserName"
-        type="text"
-        placeholder="Username"
-      />
-      <div class="d-flex justify-content-around">
-        <input
-          type="password"
-          placeholder="Password"
-          v-model="registerData.Password"
-        />
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          v-model="registerData.ConfirmPass"
-        />
-      </div>
-      <a
-        href="#"
-        class="text-black text-end d-block"
-        style="margin-top: -10px; margin-right: 20px"
-        >Need help?</a
-      >
-      <button type="submit" class="confrim">Submit</button>
-    </form>
+    </div>
   </div>
 </template>
-<style src="../assets/style/register.css"></style>
-<script>
-import { HTTP } from "@/axios";
-import { inject } from "vue";
-import { ref } from "vue";
-export default {
-  // data() {
-  //   return {
-  //     userName: "",
-  //     password: "",
-  //     value: true,
-  //   };
-  // },
-  setup() {
-    let isRegister = ref();
-    const registerData = ref({
-      UserName: "",
-      Password: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      address: "",
-      birthday: "",
-      phoneNumber: "",
-      ConfirmPass: "",
-      gender: "",
-    });
-    const emitter = inject("emitter"); // Inject `emitter`
-    emitter.on("myevent", (value) => {
-      isRegister.value = value;
-    });
+<style scoped src="../assets/style/userProfile.css"></style>
+<style>
+.p-image.p-component.card-top.p-image-preview-container img {
+  width: 250px;
+  height: 250px;
+  border-radius: 500px /500px;
+}
 
-    return { isRegister, registerData };
-  },
-  mounted() {
-    console.log(this.isRegister);
+.p-image-preview-indicator {
+  border-radius: 500px;
+}
+</style>
+<script>
+export default {
+  name: "UserProfile",
+  data() {
+    return {
+      username: "",
+      email: "",
+    };
   },
   methods: {
-    async handleRegister(e) {
-      e.preventDefault();
-      // eslint-disable-next-line no-unused-vars
-      HTTP.post("Authentication/Register", JSON.stringify(this.registerData))
-        .then((respone) => {
-          console.log(respone);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    handleSubmit() {
+      // handle form submission here
+      console.log(
+        "Submitting form with username:",
+        this.username,
+        "and email:",
+        this.email
+      );
     },
   },
 };
