@@ -219,14 +219,8 @@ const routes = [
     path: "/Register",
     name: "Register",
     meta: {
-      layout: "auth",
+      layout: "register",
     },
-    // meta: {
-    //   layout: "admin",
-    // },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import("../views/register.vue"),
     //beforeEnter: requireLogin,
   },
@@ -237,6 +231,22 @@ const routes = [
       layout: "userProfile",
     },
     component: () => import("../views/userProfile.vue"),
+  },
+  {
+    path: "/DoctorProfile",
+    name: "DoctorProfile",
+    meta: {
+      layout: "userProfile",
+    },
+    component: () => import("../views/doctorProfile.vue"),
+  },
+  {
+    path: "/NurseProfile",
+    name: "NurseProfile",
+    meta: {
+      layout: "userProfile",
+    },
+    component: () => import("../views/nurseProfile.vue"),
   },
 ];
 
