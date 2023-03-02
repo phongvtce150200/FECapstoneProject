@@ -26,23 +26,17 @@
           <li class="nav-item">
             <a href="#" class="nav-link">Our Doctor</a>
           </li>
-          <li class="nav-item">
-            <router-link
-              :to="{ name: 'userProfile', params: {} }"
-              class="nav-link"
-              >User Profile
-            </router-link>
-          </li>
+          <li class="nav-item"><a href="#" class="nav-link">About Us</a></li>
         </ul>
 
         <ul class="nav" v-if="!isLoggedIn">
           <router-link
-            :to="{ name: 'Authentication', params: {} }"
+            :to="{ name: 'Login', params: {} }"
             class="nav-link"
             @click="isLogin"
             >Sign In</router-link
           >
-          <router-link :to="{ name: 'Authentication', params: {} }">
+          <router-link :to="{ name: 'Register', params: {} }">
             <button @click="isRegister">Register</button>
           </router-link>
         </ul>
