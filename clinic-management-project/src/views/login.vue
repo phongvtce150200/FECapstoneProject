@@ -1,52 +1,27 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <!-- body -->
-  <div class="container">
-    <div class="row w-100">
-      <!-- Form Left -->
-      <div class="form-left col-sm-2 mt-4">
-        <h1>Sign up to track your health</h1>
-        <p>
-          if you have ready an account you can
-          <a href="#" class="Login-text" target="_blank">Login </a>here
-        </p>
-        <div class="text-span"></div>
-      </div>
-      <!-- Form Center -->
-      <div class="col-sm-4 form-center">
-        <img
-          src="@/assets/image/3636112-removebg-preview1.png"
-          alt=""
-          class="img-form-center"
-        />
-      </div>
-      <!-- Form Right -->
-      <div class="col-sm-4">
-        <form
-          class="form-login"
-          @submit.prevent="handleLogin"
-          :class="isRegister == true ? 'd-none' : 'd-block'"
-        >
-          <h2>Welcome User</h2>
-          <input type="text" v-model="loginData.userName" placeholder="Email" />
-          <input
-            type="password"
-            v-model="loginData.password"
-            placeholder="Password"
-          />
-          <a
-            href="#"
-            class="text-black text-end d-block"
-            style="margin-top: -10px; margin-right: 20px"
-            >Need help?</a
-          >
-          <button class="confrim">Submit</button>
-        </form>
-      </div>
+  <!-- Form Right -->
+  <form class="form-login">
+    <div class="d-flex justify-content-center">
+      <h2>Sign In</h2>
     </div>
-  </div>
+    <input type="text" v-model="loginData.userName" placeholder="Email" />
+    <input
+      type="password"
+      v-model="loginData.password"
+      placeholder="Password"
+    />
+    <a
+      href="#"
+      class="text-black text-end d-block"
+      style="margin-top: -10px; margin-right: 20px"
+      >Need help?</a
+    >
+    <div class="d-flex justify-content-center">
+      <button class="confrim w-50">Submit</button>
+    </div>
+  </form>
 </template>
-<style scoped src="../assets/style/authentication.css"></style>
 <script>
 import { HTTP } from "@/axios";
 import { ref } from "vue";
