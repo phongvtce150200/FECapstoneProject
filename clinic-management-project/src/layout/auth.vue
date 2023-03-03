@@ -1,5 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
+  <Toast />
+  <ConfirmDialog></ConfirmDialog>
   <header-component />
   <div class="d-flex">
     <!-- Form Left -->

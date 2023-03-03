@@ -85,6 +85,7 @@
               <Button
                 label="Restore"
                 class="p-button-raised"
+                :class="{ disable: data.user.isDelete === false }"
                 @click="RestoreDoctor(data.id)"
               />
             </div>
@@ -94,13 +95,12 @@
     </DataTable>
   </div>
   <Dialog
-    :header="
-      selectedUser != null ? 'Edit Doctor Information' : 'Adding New Doctor'
-    "
+    header="Adding New Doctor"
     v-model:visible="openCreateDoctorModal"
     :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
     :style="{ width: '50vw' }"
     :modal="true"
+    :closable="false"
   >
     <div class="p-inputgroup">
       <span class="p-inputgroup-addon">
@@ -197,13 +197,11 @@
       <Button
         label="Yes"
         icon="pi pi-check"
-        @click="handleSubmit()"
+        @click="CreateDoctor()"
         autofocus
       />
     </template>
   </Dialog>
-  <ConfirmDialog></ConfirmDialog>
-  <Toast />
 </template>
 
 <script>
@@ -223,7 +221,7 @@ export default {
       selectGender: [
         { name: "Female", code: "0" },
         { name: "Male", code: "1" },
-        { name: "Undefine", code: "3" },
+        { name: "Undefine", code: "2" },
       ],
       user: {
         username: "",
@@ -277,16 +275,16 @@ export default {
       HTTP.post("Doctor", this.user)
         .then((res) => {
           console.log(res);
+          this.closeModal();
+          this.getAllDoctor();
           this.$toast.add({
             severity: "success",
             summary: "Success Message",
             detail: "Message Content",
             life: 3000,
           });
-          this.closeModal();
-          this.getAllDoctor();
         })
-        .then((error) => {
+        .catch((error) => {
           console.log(error);
           this.$toast.add({
             severity: "warn",
@@ -307,7 +305,7 @@ export default {
             .then((res) => {
               console.log(res);
               this.$toast.add({
-                severity: "info",
+                severity: "success",
                 summary: "Confirmed",
                 detail: "Record deleted",
                 life: 3000,
@@ -345,9 +343,9 @@ export default {
             .then((res) => {
               console.log(res);
               this.$toast.add({
-                severity: "info",
+                severity: "success",
                 summary: "Confirmed",
-                detail: "Record deleted",
+                detail: "Record has been restore",
                 life: 3000,
               });
               this.getAllDoctor();
@@ -420,10 +418,10 @@ export default {
         "" + y + "-" + (m <= 9 ? "0" + m : m) + "-" + (d <= 9 ? "0" + d : d)
       );
     },
-    handleSubmit() {
-      if (this.selectedUser == null) this.CreateDoctor();
-      else this.EditDoctor();
-    },
+    // handleSubmit() {
+    //   if (this.selectedUser == null) this.CreateDoctor();
+    //   else this.EditDoctor();
+    // },
   },
 };
 </script>

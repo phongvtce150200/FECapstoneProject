@@ -96,15 +96,6 @@
       </li>
       <li class="nav-item">
         <router-link
-          :to="{ name: 'Logging', params: {} }"
-          class="nav-link text-dark font-italic"
-        >
-          <i class="fa-solid fa-bed-pulse"></i>
-          Logging
-        </router-link>
-      </li>
-      <li class="nav-item">
-        <router-link
           :to="{ name: 'Service', params: {} }"
           class="nav-link text-dark font-italic"
         >

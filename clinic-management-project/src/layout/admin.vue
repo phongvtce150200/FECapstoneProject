@@ -1,5 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
+  <Toast />
+  <ConfirmDialog></ConfirmDialog>
   <div class="body">
     <sidebar :isActive="isActive" @open="open(isActive)" />
     <div

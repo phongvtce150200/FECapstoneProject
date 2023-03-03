@@ -49,28 +49,14 @@
   </header>
 </template>
 <script>
-import { inject } from "vue";
-// import { ref } from "vue";
 export default {
   data() {
     return {
       fullName: localStorage.getItem("fullName"),
-      register: true,
-      login: false,
     };
   },
   setup() {
-    const emitter = inject("emitter");
-    const registerClick = (item) => {
-      emitter.emit("myevent", item);
-    };
-    const loginClick = (item) => {
-      emitter.emit("myevent", item);
-    };
-    return {
-      registerClick,
-      loginClick,
-    };
+    return {};
   },
   computed: {
     isLoggedIn() {
@@ -85,12 +71,6 @@ export default {
       window.localStorage.removeItem("usId");
       window.localStorage.removeItem("DoctorId");
       this.$router.go();
-    },
-    isRegister() {
-      this.registerClick(this.register);
-    },
-    isLogin() {
-      this.loginClick(this.login);
     },
   },
 };

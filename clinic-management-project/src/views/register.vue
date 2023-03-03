@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <!-- body -->
-  <form class="form-register">
+  <div class="form-register">
     <div class="d-flex justify-content-center">
       <h2>Register for more</h2>
     </div>
@@ -46,10 +46,10 @@
     <div class="d-flex justify-content-center">
       <button type="submit" class="confrim w-50">Submit</button>
     </div>
-  </form>
+  </div>
 </template>
 <script>
-// import { HTTP } from "@/axios";
+import { HTTP } from "@/axios";
 import { ref } from "vue";
 export default {
   setup() {
@@ -67,6 +67,17 @@ export default {
     });
     return { registerData };
   },
-  methods: {},
+  methods: {
+    async register() {
+      HTTP.post("Authentication/Register", this.registerData)
+        .then((respone) => {
+          console.log(respone);
+          this.$router.push({ name: "Login", params: {} });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
 };
 </script>
