@@ -32,15 +32,3 @@
     </div>
   </footer>
 </template>
-<style>
-.container {
-  min-height: 100%;
-  position: relative;
-}
-
-footer {
-  bottom: 0;
-  width: 100%;
-  margin-top: 50px;
-}
-</style>

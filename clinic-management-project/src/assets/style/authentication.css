@@ -17,16 +17,16 @@ button:hover {
     width: 400px;
 }
 .form-left h1 {
-    margin-top: 7rem;
+    margin-top: 12rem;
     position: relative;
-    margin-left: 4rem;
+    margin-left: 10rem;
     font-size: 35px;
     width: 400px;
     font-weight: 600;
     color: #000;
 }
 .form-left p {
-    margin-left: 4rem;
+    margin-left: 10rem;
     margin-top: 1rem;
     font-size: 20px;
 }
@@ -38,8 +38,8 @@ button:hover {
     position: absolute;
     width: 393.66px;
     height: 253.05px;
-    /* left: 98.34px; */
-    top: 150px;
+    left: 98.34px;
+    top: 300px;
     color: #000;
     background: rgba(237, 19, 5, 0.7);
     filter: blur(156.534px);
@@ -49,16 +49,19 @@ button:hover {
     width: 300px;
     height: 255px;
     left: 532px;
-    top: 420px;
-}
-.form-register{
-  display: none;
+    top: 440px;
 }
 .form-register h2 {
   margin-bottom: 20px;
   font-size: 46px;
   font-weight: 400;
   line-height: 76px;
+}
+.form-login {
+  margin-top: 100px;
+}
+.form-register {
+  margin-top: 40px;
 }
 .form-login h2 {
     margin-bottom: 20px;

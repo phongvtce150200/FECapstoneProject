@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const requireLogin = (to, from, next) => {
   const token = localStorage.getItem("token");
-  if (!token) next({ name: "Authentication", params: {} });
+  if (!token) next({ name: "Login", params: {} });
   else next();
 };
 
@@ -132,18 +132,6 @@ const routes = [
     //beforeEnter: requireLogin,
   },
   {
-    path: "/Logging",
-    name: "Logging",
-    meta: {
-      layout: "admin",
-    },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import("../views/logging.vue"),
-    //beforeEnter: requireLogin,
-  },
-  {
     path: "/Service",
     name: "Service",
     meta: {
@@ -219,7 +207,7 @@ const routes = [
     path: "/Register",
     name: "Register",
     meta: {
-      layout: "register",
+      layout: "auth",
     },
     component: () => import("../views/register.vue"),
     //beforeEnter: requireLogin,
@@ -252,7 +240,7 @@ const routes = [
     path: "/Login",
     name: "Login",
     meta: {
-      layout: "register",
+      layout: "auth",
     },
     component: () => import("../views/login.vue"),
   },

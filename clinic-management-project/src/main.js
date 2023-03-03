@@ -8,9 +8,7 @@ import "./axios";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue-3/dist/bootstrap-vue-3.css";
 import BootstrapVue3 from "bootstrap-vue-3";
-import "./callhub.js";
 import { registerGlobalComponents } from "./utils/import";
-import mitt from "mitt"; // Import mitt
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -49,15 +47,12 @@ import Avatar from "primevue/avatar";
 import Card from "primevue/card";
 import Breadcrumb from "primevue/breadcrumb";
 import InputSwitch from "primevue/inputswitch";
-import Image from "primevue/image";
-const emitter = mitt(); // Initialize mitt
 
 const app = createApp(App);
 app.use(BootstrapVue3);
 registerGlobalComponents(app);
 
 app.use(router);
-app.provide("emitter", emitter);
 app.use(PrimeVue);
 app.use(ConfirmationService);
 app.use(ToastService);
@@ -90,6 +85,5 @@ app.component("Card", Card);
 app.component("Breadcrumb", Breadcrumb);
 app.component("InputSwitch", InputSwitch);
 app.component("font-awesome-icon", FontAwesomeIcon);
-app.component("Image", Image);
 import "bootstrap/dist/js/bootstrap.js";
 app.mount("#app");
