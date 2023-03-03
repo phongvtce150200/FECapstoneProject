@@ -194,10 +194,28 @@ export default {
       HTTP.post("Authentication/Register", JSON.stringify(this.registerData))
         .then((respone) => {
           console.log(respone);
+          this.showSuccess();
         })
         .catch((error) => {
           console.log(error);
+          this.showError();
         });
+    },
+    showSuccess() {
+      this.$toast.add({
+        severity: "success",
+        summary: "Success Message",
+        detail: "Message Content",
+        life: 3000,
+      });
+    },
+    showError() {
+      this.$toast.add({
+        severity: "error",
+        summary: "Error Message",
+        detail: "Message Content",
+        life: 3000,
+      });
     },
   },
 };

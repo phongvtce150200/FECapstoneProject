@@ -1,5 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
+  <Toast />
+  <ConfirmDialog></ConfirmDialog>
   <header>
     <div class="container-fluid mt-3">
       <nav class="navbar">

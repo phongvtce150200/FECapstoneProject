@@ -87,6 +87,7 @@
               <Button
                 label="Restore"
                 class="p-button-raised"
+                :class="{ disable: data.user.isDelete === false }"
                 @click="RestoreNurse(data.id)"
               />
             </div>
@@ -196,16 +197,9 @@
         @click="closeNurseDialog()"
         class="p-button-text"
       />
-      <Button
-        label="Yes"
-        icon="pi pi-check"
-        @click="handleSubmit()"
-        autofocus
-      />
+      <Button label="Yes" icon="pi pi-check" @click="CreateNurse()" autofocus />
     </template>
   </Dialog>
-  <ConfirmDialog></ConfirmDialog>
-  <Toast />
 </template>
 <script>
 import { HTTP } from "@/axios";
@@ -285,7 +279,7 @@ export default {
             life: 3000,
           });
           this.closeModal();
-          this.getAllDoctor();
+          this.getAllNurse();
         })
         .then((error) => {
           console.log(error);
