@@ -46,7 +46,7 @@
     </div>
   </div>
 </template>
-<style src="../assets/style/register.css"></style>
+<style scoped src="../assets/style/authentication.css"></style>
 <script>
 import { HTTP } from "@/axios";
 import { ref } from "vue";

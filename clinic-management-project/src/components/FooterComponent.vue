@@ -39,9 +39,8 @@
 }
 
 footer {
-  position: absolute;
   bottom: 0;
   width: 100%;
-  height: 200px; /* adjust to match the height of your footer */
+  margin-top: 50px;
 }
 </style>

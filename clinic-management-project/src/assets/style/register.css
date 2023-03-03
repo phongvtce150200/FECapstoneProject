@@ -44,13 +44,7 @@ button:hover {
   background: rgba(237, 19, 5, 0.7);
   filter: blur(156.534px);
 }
-.img-form-center {
-  position: absolute;
-  width: 300px;
-  height: 255px;
-  left: 532px;
-  top: 440px;
-}
+
 .form-register{
 display: none;
 }

@@ -38,8 +38,8 @@ button:hover {
     position: absolute;
     width: 393.66px;
     height: 253.05px;
-    left: 98.34px;
-    top: 300px;
+    /* left: 98.34px; */
+    top: 150px;
     color: #000;
     background: rgba(237, 19, 5, 0.7);
     filter: blur(156.534px);
@@ -49,7 +49,7 @@ button:hover {
     width: 300px;
     height: 255px;
     left: 532px;
-    top: 440px;
+    top: 420px;
 }
 .form-register{
   display: none;
