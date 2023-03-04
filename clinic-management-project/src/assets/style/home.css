@@ -19,6 +19,9 @@
     font-weight: 600;
     margin-left: 50px;
 }
+.content{
+  margin-bottom: 50px;
+}
 .content .body-title{
     color: #B42519;
 }

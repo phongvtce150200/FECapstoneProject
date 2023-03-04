@@ -16,6 +16,18 @@ const isLoggedIn = (to, from, next) => {
 
 const routes = [
   {
+    path: "/404NotFound",
+    name: "404",
+    meta: {
+      layout: "404Page",
+    },
+    component: () => import("../layout/notFoundPage.vue"),
+  },
+  {
+    path: "/:catchAll(.*)",
+    redirect: "/404NotFound",
+  },
+  {
     path: "/",
     name: "home",
     meta: {
@@ -216,7 +228,7 @@ const routes = [
     path: "/UserProfile",
     name: "userProfile",
     meta: {
-      layout: "userProfile",
+      layout: "default",
     },
     component: () => import("../views/userProfile.vue"),
   },
