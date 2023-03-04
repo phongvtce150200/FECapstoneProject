@@ -58,7 +58,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
-          this.showError();
+          this.showError(err.response.data);
         });
     },
     showSuccess() {
@@ -69,11 +69,11 @@ export default {
         life: 3000,
       });
     },
-    showError() {
+    showError(err) {
       this.$toast.add({
         severity: "error",
-        summary: "Error Message",
-        detail: "Message Content",
+        summary: "Login Fail",
+        detail: err,
         life: 3000,
       });
     },

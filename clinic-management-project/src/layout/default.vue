@@ -3,7 +3,9 @@
   <Toast />
   <ConfirmDialog></ConfirmDialog>
   <header-component />
-  <slot />
+  <div class="content">
+    <slot />
+  </div>
   <footer-component />
 </template>
 <script>

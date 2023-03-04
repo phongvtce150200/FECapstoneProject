@@ -104,7 +104,6 @@
     </div>
   </div>
 </template>
-<style scoped src="../assets/style/userProfile.css"></style>
 <style>
 .p-image.p-component.card-top.p-image-preview-container img {
   width: 250px;

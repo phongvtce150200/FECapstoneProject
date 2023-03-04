@@ -17,7 +17,7 @@ export function registerGlobalComponents(app) {
     defineAsyncComponent(() => import("@/layout/admin"))
   );
   app.component(
-    "userProfile-layout",
-    defineAsyncComponent(() => import("@/layout/userProfile"))
-  )
+    "404Page-layout",
+    defineAsyncComponent(() => import("@/layout/notFoundPage"))
+  );
 }
