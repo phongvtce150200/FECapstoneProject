@@ -580,75 +580,70 @@ export default {
     openNewTab() {
       const printWindow = window.open("", "_blank", "width=400,height=500");
       printWindow.document.write(` <html>
-          <head>
-            <title>Prescription</title>
-            <style>
-            body {
-                margin: 0;
-                padding: 0;
-                background-color: white;
-              }
-              h1 {
-                text-align: center;
-                margin-top: 30px;
-                margin-bottom: 20px;
-                font-size: 32px;
-                font-weight: bold;
-              }
-              table {
-                border-collapse: collapse;
-                width: 100%;
-                margin-bottom: 30px;
-              }
-              table, th, td {
-                border: 1px solid black;
-                border-collapse: collapse;
-              }
-              .print-btn {
-                position: fixed;
-                bottom: 0;
-                right: 0;
-                margin: 20px;
-                padding: 10px 20px;
-                background-color: #2196f3;
-                color: white;
-                font-size: 18px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                display: block;
-              }
-              @media print {
-                button.print-btn {
-                display: none;
-                }
-              }
-            </style>
-          </head>
-          <body>
-            <h1>Prescription</h1>
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Medication A</td>
-                  <td>10</td>
-                </tr>
-                <tr>
-                  <td>Medication B</td>
-                  <td>5</td>
-                </tr>
-              </tbody>
-            </table>
-            <button onclick="window.print()" class="print-btn">Print</button>
-          </body>
-        </html>`);
-      printWindow.document.close();
+      <head>
+        <title>Prescription</title>
+        <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: white;
+          }
+          h1 {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-size: 32px;
+            font-weight: bold;
+          }
+          table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 30px;
+          }
+          table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+          }
+          .print-btn {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: #2196f3;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+          }
+          @media print {
+            button.print-btn {
+            display: none;
+            }
+          }
+        </style>
+      </head>
+      <body>
+        <h1>Prescription</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Medicine name</th>
+              <th>Using Time</th>
+              <th>using Day</th>
+              <th>Method</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${document.getElementById("PresciptionTbody").innerHTML}
+          </tbody>
+        </table>
+        <button class="print-btn" onclick="window.print()">Print</button>
+      </body>
+    </html>`);
     },
   },
 };

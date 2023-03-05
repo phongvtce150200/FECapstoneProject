@@ -8,9 +8,7 @@ import "./axios";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue-3/dist/bootstrap-vue-3.css";
 import BootstrapVue3 from "bootstrap-vue-3";
-import "./callhub.js";
 import { registerGlobalComponents } from "./utils/import";
-import mitt from "mitt"; // Import mitt
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -50,14 +48,11 @@ import Card from "primevue/card";
 import Breadcrumb from "primevue/breadcrumb";
 import InputSwitch from "primevue/inputswitch";
 
-const emitter = mitt(); // Initialize mitt
-
 const app = createApp(App);
 app.use(BootstrapVue3);
 registerGlobalComponents(app);
 
 app.use(router);
-app.provide("emitter", emitter);
 app.use(PrimeVue);
 app.use(ConfirmationService);
 app.use(ToastService);

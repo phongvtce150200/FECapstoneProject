@@ -16,4 +16,8 @@ export function registerGlobalComponents(app) {
     "admin-layout",
     defineAsyncComponent(() => import("@/layout/admin"))
   );
+  app.component(
+    "404Page-layout",
+    defineAsyncComponent(() => import("@/layout/notFoundPage"))
+  );
 }

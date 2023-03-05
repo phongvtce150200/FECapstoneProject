@@ -2,19 +2,44 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const requireLogin = (to, from, next) => {
   const token = localStorage.getItem("token");
-  if (!token) next({ name: "Authentication", params: {} });
+  if (!token) next({ name: "Login", params: {} });
   else next();
+};
+
+const ifHaveRole = (to, from, next) => {
+  const role = localStorage.getItem("role");
+  if (role === "Doctor" || role === "Nurse" || role === "Admin") {
+    next({ name: "Dashboard", params: {} });
+  } else next();
+};
+const ifHaveNotRole = (to, from, next) => {
+  const role = localStorage.getItem("role");
+  if (role === "Patient") {
+    next({ name: "home", params: {} });
+  } else next();
 };
 
 const isLoggedIn = (to, from, next) => {
   const token = localStorage.getItem("token");
   if (token) {
-    next({ name: "Home", params: {} });
+    next({ name: "home", params: {} });
     router.push({ name: "home", params: {} });
   } else next();
 };
 
 const routes = [
+  {
+    path: "/404NotFound",
+    name: "404",
+    meta: {
+      layout: "404Page",
+    },
+    component: () => import("../layout/notFoundPage.vue"),
+  },
+  {
+    path: "/:catchAll(.*)",
+    redirect: "/404NotFound",
+  },
   {
     path: "/",
     name: "home",
@@ -22,6 +47,7 @@ const routes = [
       layout: "default",
     },
     component: () => import("../views/index.vue"),
+    beforeEnter: ifHaveRole,
   },
   {
     path: "/Authentication",
@@ -57,7 +83,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("../views/dashboard.vue"),
-    //beforeEnter: requireLogin,
+    beforeEnter: [requireLogin, ifHaveNotRole],
   },
   {
     path: "/ReceivePatient",
@@ -69,7 +95,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("../views/receivepatient.vue"),
-    //beforeEnter: requireLogin,
+    beforeEnter: [requireLogin, ifHaveNotRole],
   },
   {
     path: "/MedicalExam",
@@ -81,7 +107,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("../views/medicalexam.vue"),
-    //beforeEnter: requireLogin,
+    beforeEnter: [requireLogin, ifHaveNotRole],
   },
   {
     path: "/DoctorAppointment",
@@ -93,7 +119,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("../views/doctorAppointment.vue"),
-    //beforeEnter: requireLogin,
+    beforeEnter: [requireLogin, ifHaveNotRole],
   },
   {
     path: "/Medicine",
@@ -105,7 +131,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("../views/medicineManage.vue"),
-    //beforeEnter: requireLogin,
+    beforeEnter: [requireLogin, ifHaveNotRole],
   },
   {
     path: "/Doctor",
@@ -117,7 +143,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("../views/doctorManage.vue"),
-    //beforeEnter: requireLogin,
+    beforeEnter: [requireLogin, ifHaveNotRole],
   },
   {
     path: "/Nurse",
@@ -129,19 +155,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("../views/nurseManage.vue"),
-    //beforeEnter: requireLogin,
-  },
-  {
-    path: "/Logging",
-    name: "Logging",
-    meta: {
-      layout: "admin",
-    },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import("../views/logging.vue"),
-    //beforeEnter: requireLogin,
+    beforeEnter: [requireLogin, ifHaveNotRole],
   },
   {
     path: "/Service",
@@ -153,7 +167,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("../views/serviceManage.vue"),
-    //beforeEnter: requireLogin,
+    beforeEnter: [requireLogin, ifHaveNotRole],
   },
   {
     path: "/Invoice",
@@ -165,7 +179,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("../views/invoiceManage.vue"),
-    //beforeEnter: requireLogin,
+    beforeEnter: [requireLogin, ifHaveNotRole],
   },
   {
     path: "/Test",
@@ -177,7 +191,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("../views/testManage.vue"),
-    //beforeEnter: requireLogin,
+    beforeEnter: [requireLogin, ifHaveNotRole],
   },
   {
     path: "/Prescription",
@@ -189,7 +203,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("../views/prescriptionManage.vue"),
-    //beforeEnter: requireLogin,
+    beforeEnter: [requireLogin, ifHaveNotRole],
   },
   {
     path: "/Patient",
@@ -201,7 +215,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("../views/patientManage.vue"),
-    //beforeEnter: requireLogin,
+    beforeEnter: [requireLogin, ifHaveNotRole],
   },
   {
     path: "/ResetPassword",
@@ -213,7 +227,49 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("../views/resetPassword.vue"),
-    //beforeEnter: requireLogin,
+  },
+  {
+    path: "/Register",
+    name: "Register",
+    meta: {
+      layout: "auth",
+    },
+    component: () => import("../views/register.vue"),
+  },
+  {
+    path: "/UserProfile",
+    name: "userProfile",
+    meta: {
+      layout: "default",
+    },
+    component: () => import("../views/userProfile.vue"),
+    beforeEnter: [requireLogin, ifHaveRole],
+  },
+  {
+    path: "/DoctorProfile",
+    name: "DoctorProfile",
+    meta: {
+      layout: "admin",
+    },
+    component: () => import("../views/doctorProfile.vue"),
+    beforeEnter: [requireLogin, ifHaveNotRole],
+  },
+  {
+    path: "/NurseProfile",
+    name: "NurseProfile",
+    meta: {
+      layout: "admin",
+    },
+    component: () => import("../views/nurseProfile.vue"),
+    beforeEnter: [requireLogin, ifHaveNotRole],
+  },
+  {
+    path: "/Login",
+    name: "Login",
+    meta: {
+      layout: "auth",
+    },
+    component: () => import("../views/login.vue"),
   },
 ];
 

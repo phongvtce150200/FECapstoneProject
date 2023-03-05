@@ -1,7 +1,11 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
+  <Toast />
+  <ConfirmDialog></ConfirmDialog>
   <header-component />
-  <slot />
+  <div class="content">
+    <slot />
+  </div>
   <footer-component />
 </template>
 <script>

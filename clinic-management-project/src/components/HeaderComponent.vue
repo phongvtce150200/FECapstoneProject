@@ -31,12 +31,12 @@
 
         <ul class="nav" v-if="!isLoggedIn">
           <router-link
-            :to="{ name: 'Authentication', params: {} }"
+            :to="{ name: 'Login', params: {} }"
             class="nav-link"
             @click="isLogin"
             >Sign In</router-link
           >
-          <router-link :to="{ name: 'Authentication', params: {} }">
+          <router-link :to="{ name: 'Register', params: {} }">
             <button @click="isRegister">Register</button>
           </router-link>
         </ul>
@@ -49,28 +49,14 @@
   </header>
 </template>
 <script>
-import { inject } from "vue";
-// import { ref } from "vue";
 export default {
   data() {
     return {
       fullName: localStorage.getItem("fullName"),
-      register: true,
-      login: false,
     };
   },
   setup() {
-    const emitter = inject("emitter");
-    const registerClick = (item) => {
-      emitter.emit("myevent", item);
-    };
-    const loginClick = (item) => {
-      emitter.emit("myevent", item);
-    };
-    return {
-      registerClick,
-      loginClick,
-    };
+    return {};
   },
   computed: {
     isLoggedIn() {
@@ -84,13 +70,9 @@ export default {
       window.localStorage.removeItem("role");
       window.localStorage.removeItem("usId");
       window.localStorage.removeItem("DoctorId");
+      window.localStorage.removeItem("NurseId");
+      window.localStorage.removeItem("PatientId");
       this.$router.go();
-    },
-    isRegister() {
-      this.registerClick(this.register);
-    },
-    isLogin() {
-      this.loginClick(this.login);
     },
   },
 };

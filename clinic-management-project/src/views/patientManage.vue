@@ -79,6 +79,7 @@
               <Button
                 label="Restore"
                 class="p-button-raised"
+                :class="{ disable: data.user.isDelete === false }"
                 @click="RestorePatient(data.id)"
               />
             </div>
@@ -268,12 +269,32 @@ export default {
           HTTP.put("Patient/DeletePut?id=" + id)
             .then((res) => {
               console.log(res);
+              this.$toast.add({
+                severity: "success",
+                summary: "Confirmed",
+                detail: "Record deleted",
+                life: 3000,
+              });
               this.closePatientDialog();
               this.getAllPatient();
             })
             .catch((error) => {
               console.log(error);
+              this.$toast.add({
+                severity: "warn",
+                summary: "Warn Message",
+                detail: "Message Content",
+                life: 3000,
+              });
             });
+        },
+        reject: () => {
+          this.$toast.add({
+            severity: "error",
+            summary: "Rejected",
+            detail: "You have rejected",
+            life: 3000,
+          });
         },
       });
     },
@@ -288,7 +309,7 @@ export default {
             .then((res) => {
               console.log(res);
               this.$toast.add({
-                severity: "info",
+                severity: "success",
                 summary: "Confirmed",
                 detail: "Record deleted",
                 life: 3000,
