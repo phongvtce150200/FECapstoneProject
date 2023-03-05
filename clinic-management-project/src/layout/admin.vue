@@ -71,7 +71,7 @@
     </div>
   </div>
 </template>
-<style src="../assets/style/admin.css"></style>
+<style src="../assets/style/admin.css" scoped></style>
 <script>
 import Sidebar from "@/components/SideBarAdminComponent.vue";
 export default {
@@ -90,6 +90,11 @@ export default {
     logout() {
       window.localStorage.removeItem("token");
       window.localStorage.removeItem("fullName");
+      window.localStorage.removeItem("role");
+      window.localStorage.removeItem("usId");
+      window.localStorage.removeItem("DoctorId");
+      window.localStorage.removeItem("NurseId");
+      window.localStorage.removeItem("PatientId");
     },
     openDropdown() {
       this.dropdown = !this.dropdown;

@@ -1,9 +1,4 @@
 <template>
-  <!-- <h1>404</h1>
-  <p>Oops! Something is wrong.</p>
-  <router-link class="button" :to="{ name: 'home', params: {} }"
-    ><i class="icon-home"></i> Go back in initial page, is better.</router-link
-  > -->
   <div class="page-404">
     <div class="spinner-loading" v-if="loading">
       <ProgressSpinner
@@ -40,47 +35,10 @@
     </div>
   </div>
 </template>
-<!-- <style scoped>
-.button {
-  font-weight: 300;
-  color: #fff;
-  font-size: 1.2em;
-  text-decoration: none;
-  border: 1px solid #efefef;
-  padding: 0.5em;
-  border-radius: 3px;
-  float: left;
-  margin: 6em 0 0 -155px;
-  left: 52%;
-  position: relative;
-  transition: all 0.3s linear;
-  background-color: #007aff;
-}
-
-.button:hover {
-  background-color: #007aff;
-  color: #fff;
-}
-
-p {
-  font-size: 2em;
-  text-align: center;
-  font-weight: 100;
-}
-
-h1 {
-  text-align: center;
-  font-size: 15em;
-  font-weight: 100;
-}
-</style> -->
-
 <script>
 export default {
   data() {
-    return {
-      loading: false,
-    };
+    return {};
   },
   methods: {
     goToHome() {
@@ -90,7 +48,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .page-404 {
   height: 100vh;
   display: flex;

@@ -70,6 +70,8 @@ export default {
       window.localStorage.removeItem("role");
       window.localStorage.removeItem("usId");
       window.localStorage.removeItem("DoctorId");
+      window.localStorage.removeItem("NurseId");
+      window.localStorage.removeItem("PatientId");
       this.$router.go();
     },
   },
