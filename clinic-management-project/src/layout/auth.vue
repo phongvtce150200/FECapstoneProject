@@ -30,7 +30,7 @@
     </div>
   </div>
 </template>
-<style src="../assets/style/authentication.css"></style>
+<style src="../assets/style/authentication.css" scoped></style>
 <script>
 import HeaderComponent from "@/components/HeaderComponent";
 export default {
