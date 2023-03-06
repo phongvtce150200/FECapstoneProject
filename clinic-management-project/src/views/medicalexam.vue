@@ -2,187 +2,131 @@
 <template>
   <div class="container d-flex">
     <div class="col-md-2" style="margin-right: 5px">
-      <table class="table border-secondary" border="1">
-        <thead>
-          <tr>
-            <th class="table-danger">
-              <p>Queue</p>
-            </th>
-          </tr>
-          <tr>
-            <th>
-              <form action="">
-                <input
-                  class="form-control"
-                  type="text"
-                  placeholder="Find Patient"
-                  style="text-align: center"
-                />
-              </form>
-            </th>
-          </tr>
-        </thead>
-        <tbody style="text-align: center" id="patientBody">
-          <tr
-            v-for="(item, index) in queue"
-            :key="index"
-            style="display: table; width: 100%; table-layout: fixed"
-          >
-            <td>
-              <button
-                style="border: none; background: none"
-                @click="setData(index)"
-              >
-                {{ item.patient.user.fullName }}
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <table class="table table-bordered border-secondary">
-        <thead class="table-danger">
-          <tr>
-            <th>
-              <p>Previous prescription</p>
-            </th>
-          </tr>
-        </thead>
-        <!-- chỗ này cần sroll box -->
-        <tbody style="height: 200px">
-          <tr>
-            <td>
-              <a href="" style="text-decoration: none"
-                >List các toa thuốc cũ của bệnh nhân</a
-              >
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div
-        style="
-          align-items: center;
-          flex-direction: column;
-          justify-content: space-around;
-          display: flex;
-        "
+      <Listbox
+        v-model="selectedPatient"
+        :options="queue"
+        :filter="true"
+        optionLabel="patient.user.fullName"
+        listStyle="max-height:250px"
+        style="width: 15rem"
+        filterPlaceholder="Search"
+        @click="setData"
       >
-        <button
-          id="saveAndPrintBtn"
-          data-bs-toggle="modal"
-          data-bs-target="#printModal"
-          class="btn btn-success"
-          style="margin-bottom: 20px"
-        >
-          Save and Print
-        </button>
-      </div>
+        <template #option="item">
+          <div class="country-item">
+            <div>
+              {{ item.option.patient.user.fullName }}
+            </div>
+          </div>
+        </template>
+      </Listbox>
     </div>
     <div class="col-md-10">
-      <table class="table table-bordered border-secondary">
-        <thead>
-          <tr class="table-danger">
-            <th>
-              <p>Patient Infomation</p>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="d-flex justify-content-between">
-              Full Name:
-              <input
-                v-model="fullName"
-                type="text"
-                class="form-control"
-                readonly
-              />
-              DoB:
-              <input
-                v-model="birthDay"
-                type="date"
-                class="form-control"
-                style="width: 200px"
-                readonly
-              />
-              Gender:
-              <input
-                type="text"
-                v-model="gender"
-                class="form-control"
-                style="width: 80px"
-                readonly
-              />
-            </td>
-            <td class="d-flex justify-content-between">
-              Address:
-              <input
-                v-model="address"
-                type="text"
-                class="form-control"
-                readonly
-              />
-
-              Phone Number:
-              <input
-                v-model="phoneNumber"
-                type="text"
-                class="form-control"
-                style="width: 200px"
-                readonly
-              />
-            </td>
-            <td class="d-flex justify-content-between">
-              Pulse:
-              <input
-                type="number"
-                v-model="Pulse"
-                placeholder="bpm"
-                class="form-control"
-                style="width: 80px"
-                readonly
-              />
-              Blood Pressure:
-              <input
-                type="number"
-                v-model="BloodPressure"
-                placeholder="mmHg"
-                class="form-control"
-                style="width: 100px"
-                readonly
-              />
-              Temperature:
-              <input
-                type="number"
-                v-model="Tempurature"
-                placeholder="°C"
-                class="form-control"
-                style="width: 80px"
-                readonly
-              />
-              Weight:
-              <input
-                type="number"
-                v-model="Weight"
-                placeholder="Kg"
-                class="form-control"
-                style="width: 80px"
-                readonly
-              />
-              Height:
-              <input
-                type="number"
-                v-model="Height"
-                placeholder="Cm"
-                class="form-control"
-                style="width: 80px"
-                readonly
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <table class="table table-bordered border-secondary">
+      <div class="mb-3">
+        <fieldset>
+          <legend><h5>Patient Health Tracking Status</h5></legend>
+          <div class="fieldset-content">
+            <div class="d-flex justify-content-between">
+              <div>
+                <span> Full Name: </span>
+                <InputText
+                  v-model="patientHealthTracking.patient.user.fullName"
+                  type="text"
+                  class="form-control"
+                  readonly
+                />
+              </div>
+              <div>
+                <span> DoB:</span>
+                <InputText
+                  type="date"
+                  v-model="patientHealthTracking.patient.user.birthDay"
+                  readonly
+                />
+              </div>
+              <div>
+                <span> Gender:</span>
+                <InputText
+                  type="text"
+                  v-model="patientHealthTracking.patient.user.gender"
+                  readonly
+                />
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div>
+                <span> Address:</span>
+                <InputText
+                  type="text"
+                  v-model="patientHealthTracking.patient.user.address"
+                  readonly
+                />
+              </div>
+              <div>
+                <span>Phone Number:</span>
+                <InputText
+                  type="text"
+                  v-model="patientHealthTracking.patient.user.phoneNumber"
+                  readonly
+                />
+              </div>
+              <div class="d-flex justify-content-between">
+                <div>
+                  <span>Pulse:</span>
+                  <InputNumber
+                    inputId="withoutgrouping"
+                    v-model="patientHealthTracking.pulse"
+                    mode="decimal"
+                    :useGrouping="false"
+                    placeholder="bpm"
+                  />
+                </div>
+                <div>
+                  <span> Blood Pressure:</span>
+                  <InputNumber
+                    inputId="withoutgrouping"
+                    v-model="patientHealthTracking.bloodPressure"
+                    mode="decimal"
+                    :useGrouping="false"
+                    placeholder="mmHg"
+                  />
+                </div>
+                <div>
+                  <span>Temperature:</span>
+                  <InputNumber
+                    inputId="withoutgrouping"
+                    v-model="patientHealthTracking.tempurature"
+                    mode="decimal"
+                    :useGrouping="false"
+                    placeholder="°C"
+                  />
+                </div>
+                <div>
+                  <span> Weight:</span>
+                  <InputNumber
+                    inputId="withoutgrouping"
+                    v-model="patientHealthTracking.weight"
+                    mode="decimal"
+                    :useGrouping="false"
+                    placeholder="Kg"
+                  />
+                </div>
+                <div>
+                  Height:
+                  <InputNumber
+                    inputId="withoutgrouping"
+                    v-model="patientHealthTracking.height"
+                    mode="decimal"
+                    :useGrouping="false"
+                    placeholder="Cm"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <!-- <table class="table table-bordered border-secondary">
         <thead>
           <tr>
             <th colspan="5" class="table-danger">
@@ -253,8 +197,81 @@
             no Data
           </tr>
         </tbody>
-      </table>
-      <div style="height: 250px; overflow: auto" class="table table-bordered">
+      </table> -->
+      <div class="mb-3">
+        <fieldset>
+          <legend>
+            <div class="d-flex justify-content-between align-items-center">
+              <h5>Presciption</h5>
+              <div class="d-flex justify-content-center align-items-center">
+                <h5 class="me-2">Using Day:</h5>
+                <InputNumber mode="decimal" :min="0" :max="100" />
+              </div>
+
+              <div class="d-flex justify-content-center align-items-center">
+                <h5 class="me-2">Re-Examination day</h5>
+                <Calendar dateFormat="mm-dd-yy" />
+              </div>
+              <div>
+                <Button
+                  label="Clear Presciption"
+                  class="p-button-rounded p-button-danger"
+                />
+              </div>
+            </div>
+          </legend>
+          <div class="fieldset-content">
+            <DataTable
+              :value="prescription"
+              :scrollable="true"
+              scrollHeight="400px"
+              :loading="loading"
+              showGridlines
+            >
+              <template #empty> No project found. </template>
+              <template #loading>
+                <ProgressSpinner />
+              </template>
+              <Column field="medicineName" header="Medicine Name">
+                <template #body="{ data }">
+                  {{ data.medicineName }}
+                </template>
+              </Column>
+              <Column header="Amount">
+                <template #editor="{ data, amount }">
+                  <InputText v-model="data[amount]" type="text" width="50%" />
+                </template>
+              </Column>
+              <Column header="Using Day">
+                <template #editor="{ data, usingDay }">
+                  <InputText v-model="data[usingDay]" type="text" />
+                </template>
+              </Column>
+              <Column header="Times Per Day">
+                <template #editor="{ data, timesPerDay }">
+                  <InputText v-model="data[timesPerDay]" type="text" />
+                </template>
+              </Column>
+              <Column header="Using Type">
+                <template #editor="{ data, usingType }">
+                  <InputText v-model="data[usingType]" type="text" />
+                </template>
+              </Column>
+              <Column header="Session">
+                <template #body>
+                  <Dropdown optionLabel="Session" :editable="true" />
+                </template>
+              </Column>
+              <Column header="Action">
+                <template #body>
+                  <Button label="Danger" class="p-button-danger" />
+                </template>
+              </Column>
+            </DataTable>
+          </div>
+        </fieldset>
+      </div>
+      <!-- <div style="height: 250px; overflow: auto" class="table table-bordered">
         <table id="medicineList" style="width: 100%; position: relative">
           <tr>
             <th class="table-danger" colspan="5">
@@ -293,10 +310,53 @@
             </td>
           </tr>
         </table>
+      </div> -->
+      <div>
+        <DataTable
+          :value="medicines"
+          :scrollable="true"
+          scrollHeight="400px"
+          :loading="loading"
+          showGridlines
+        >
+          <template #header>
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="m-0">Medicine</h5>
+              <span class="p-input-icon-left">
+                <i class="pi pi-search" />
+                <InputText placeholder="Keyword Search" />
+              </span>
+            </div>
+          </template>
+          <Column field="medicineName" header="Medicine Name">
+            <template #body="{ data }">
+              {{ data.medicineName }}
+            </template>
+          </Column>
+          <Column field="price" header="Price">
+            <template #body="{ data }">
+              {{ data.price }}
+            </template>
+          </Column>
+          <Column field="inStock" header="In Stock">
+            <template #body="{ data }">
+              {{ data.inStock }}
+            </template>
+          </Column>
+          <Column header="Add Medicine">
+            <template #body="{ data }">
+              <Button
+                label="Add Medicine"
+                class="p-button-raised p-button-warning"
+                @click="addRowMethod(data)"
+              />
+            </template>
+          </Column>
+        </DataTable>
       </div>
     </div>
   </div>
-  <div
+  <!-- <div
     class="modal fade"
     id="printModal"
     tabindex="-1"
@@ -407,7 +467,8 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
+  <button class="btn btn-primary" @click="check">click</button>
 </template>
 <style scoped>
 #patientBody {
@@ -425,6 +486,42 @@
 .pdf-container {
   height: 500px;
 }
+fieldset {
+  box-sizing: border-box;
+  border: 1px solid #dee2e6;
+  background: #ffffff;
+  color: #495057;
+  border-radius: 6px;
+}
+fieldset legend {
+  padding: 1.25rem;
+  border: 1px solid #dee2e6;
+  color: #343a40;
+  background: #f4d7d3;
+  font-weight: 700;
+  border-radius: 6px;
+}
+.fieldset-content {
+  box-sizing: border-box;
+  padding: 1.25rem;
+}
+</style>
+<style>
+.p-listbox .p-listbox-header {
+  background-color: #f8d7d3;
+}
+.listbox-header {
+  background-color: #f8d7d3;
+}
+.p-listbox-list-wrapper {
+  height: 250px;
+}
+.p-listbox .p-listbox-list .p-listbox-item {
+  border-bottom: 1px solid #cfd8dc;
+}
+.p-datatable.p-datatable-gridlines .p-datatable-header {
+  background-color: #f8d7d3;
+}
 </style>
 <script>
 //import puppeteer from "puppeteer";
@@ -433,26 +530,33 @@ import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 export default {
   data() {
     return {
-      showPDFContainer: false,
       connection: null,
       queue: [],
       medicines: [],
       prescription: [],
       doctorName: localStorage.getItem("fullName"),
-      fullName: null,
-      birthDay: "",
-      address: "",
-      gender: "",
-      phoneNumber: "",
-      Pulse: "",
-      BloodPressure: "",
-      Tempurature: "",
-      Weight: "",
-      Height: "",
-      Age: "",
-      usingDay: "",
-      usingTime: "",
-      usingMethod: "",
+
+      selectedPatient: null,
+      patientHealthTracking: {
+        bloodPressure: null,
+        doctorId: null,
+        height: null,
+        patient: {
+          id: null,
+          user: {
+            address: "",
+            birthDay: "",
+            email: "",
+            fullName: "",
+            gender: "",
+            phoneNumber: "",
+          },
+        },
+        patientId: null,
+        pulse: null,
+        tempurature: null,
+        weight: null,
+      },
     };
   },
   created() {
@@ -472,15 +576,18 @@ export default {
       })
       .catch((error) => console.error(error));
   },
-  watch: {
-    prescription: {
-      handler: function Change(text) {
-        console.log(text);
-      },
-    },
-    deep: true,
-  },
+  // watch: {
+  //   prescription: {
+  //     handler: function Change(text) {
+  //       console.log(text);
+  //     },
+  //   },
+  //   deep: true,
+  // },
   methods: {
+    check() {
+      console.log("alo", this.prescription);
+    },
     async getQueue() {
       // eslint-disable-next-line no-unused-vars
       HTTP.get("Queue", {
@@ -501,24 +608,21 @@ export default {
       HTTP.get("Medicines/GetAllMedicines")
         .then((response) => {
           this.medicines = response.data;
+          console.log(this.medicines);
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    setData(index) {
-      this.fullName = this.queue[index].patient.user.fullName;
-      this.birthDay = this.dateToYMD(this.queue[index].patient.user.birthDay);
-      this.address = this.queue[index].patient.user.address;
-      this.gender = this.queue[index].patient.user.gender;
-      this.phoneNumber = this.queue[index].patient.user.phoneNumber;
-      this.Pulse = this.queue[index].pulse;
-      this.BloodPressure = this.queue[index].bloodPressure;
-      this.Tempurature = this.queue[index].tempurature;
-      this.Weight = this.queue[index].weight;
-      this.Height = this.queue[index].height;
-      var currentYear = new Date().getFullYear();
-      this.Age = currentYear - new Date(this.birthDay).getFullYear();
+    setData() {
+      const clickedItem = this.selectedPatient;
+      this.patientHealthTracking = { ...this.selectedPatient };
+      this.patientHealthTracking.patient.user.birthDay = this.dateToYMD(
+        this.patientHealthTracking.patient.user.birthDay
+      );
+      if (clickedItem) {
+        console.log(clickedItem);
+      }
     },
     dateToYMD(end_date) {
       var ed = new Date(end_date);
