@@ -11,25 +11,44 @@
             :suggestions="filteredPatients"
             @complete="searchPatient($event)"
             optionLabel="user.fullName"
+            class="form-control"
           />
         </div>
         <div>
           <span> DoB:</span>
-          <InputText type="date" v-model="queue.birthDay" readonly />
+          <InputText
+            type="date"
+            v-model="queue.birthDay"
+            readonly
+            class="form-control"
+          />
         </div>
         <div>
           <span> Gender:</span>
-          <InputText type="text" v-model="queue.gender" readonly />
+          <InputText
+            type="text"
+            v-model="queue.gender"
+            readonly
+            class="form-control"
+          />
         </div>
-      </div>
-      <div class="d-flex justify-content-between">
-        <div>
+        <div class="address">
           <span> Address:</span>
-          <InputText type="text" v-model="queue.address" readonly />
+          <InputText
+            type="text"
+            v-model="queue.address"
+            readonly
+            class="form-control"
+          />
         </div>
-        <div>
+        <div class="phone">
           <span>Phone Number:</span>
-          <InputText type="text" v-model="queue.phoneNumber" readonly />
+          <InputText
+            type="text"
+            v-model="queue.phoneNumber"
+            readonly
+            class="form-control"
+          />
         </div>
       </div>
       <div class="d-flex justify-content-between">
@@ -41,6 +60,7 @@
             mode="decimal"
             :useGrouping="false"
             placeholder="bpm"
+            class="form-control"
           />
         </div>
         <div>
@@ -51,6 +71,7 @@
             mode="decimal"
             :useGrouping="false"
             placeholder="mmHg"
+            class="form-control"
           />
         </div>
         <div>
@@ -61,6 +82,7 @@
             mode="decimal"
             :useGrouping="false"
             placeholder="°C"
+            class="form-control"
           />
         </div>
         <div>
@@ -71,6 +93,7 @@
             mode="decimal"
             :useGrouping="false"
             placeholder="Kg"
+            class="form-control"
           />
         </div>
         <div>
@@ -81,6 +104,7 @@
             mode="decimal"
             :useGrouping="false"
             placeholder="Cm"
+            class="form-control"
           />
         </div>
         <div>
@@ -91,6 +115,7 @@
             optionValue="id"
             optionLabel="fullName"
             placeholder="Select a Doctor"
+            class="form-control"
           />
         </div>
       </div>
@@ -290,7 +315,10 @@ export default {
   overflow-y: scroll;
 }
 .p-autocomplete-input.p-inputtext.p-component {
-  width: 500px;
+  width: 400px;
+}
+.p-autocomplete.p-component.p-inputwrapper {
+  width: 400px;
 }
 fieldset {
   box-sizing: border-box;
@@ -310,5 +338,11 @@ fieldset legend {
 .fieldset-content {
   box-sizing: border-box;
   padding: 1.25rem;
+}
+
+.p-inputnumber.p-component.p-inputwrapper.form-control,
+.p-autocomplete.p-component.p-inputwrapper.form-control {
+  border: none;
+  margin-left: -10px;
 }
 </style>
