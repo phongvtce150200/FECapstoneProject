@@ -41,6 +41,7 @@
                 <InputText
                   type="date"
                   v-model="patientHealthTracking.patient.user.birthDay"
+                  class="form-control"
                   readonly
                 />
               </div>
@@ -49,16 +50,16 @@
                 <InputText
                   type="text"
                   v-model="patientHealthTracking.patient.user.gender"
+                  class="form-control"
                   readonly
                 />
               </div>
-            </div>
-            <div class="d-flex justify-content-between">
               <div>
                 <span> Address:</span>
                 <InputText
                   type="text"
                   v-model="patientHealthTracking.patient.user.address"
+                  class="form-control"
                   readonly
                 />
               </div>
@@ -67,60 +68,66 @@
                 <InputText
                   type="text"
                   v-model="patientHealthTracking.patient.user.phoneNumber"
+                  class="form-control"
                   readonly
                 />
               </div>
-              <div class="d-flex justify-content-between">
-                <div>
-                  <span>Pulse:</span>
-                  <InputNumber
-                    inputId="withoutgrouping"
-                    v-model="patientHealthTracking.pulse"
-                    mode="decimal"
-                    :useGrouping="false"
-                    placeholder="bpm"
-                  />
-                </div>
-                <div>
-                  <span> Blood Pressure:</span>
-                  <InputNumber
-                    inputId="withoutgrouping"
-                    v-model="patientHealthTracking.bloodPressure"
-                    mode="decimal"
-                    :useGrouping="false"
-                    placeholder="mmHg"
-                  />
-                </div>
-                <div>
-                  <span>Temperature:</span>
-                  <InputNumber
-                    inputId="withoutgrouping"
-                    v-model="patientHealthTracking.tempurature"
-                    mode="decimal"
-                    :useGrouping="false"
-                    placeholder="°C"
-                  />
-                </div>
-                <div>
-                  <span> Weight:</span>
-                  <InputNumber
-                    inputId="withoutgrouping"
-                    v-model="patientHealthTracking.weight"
-                    mode="decimal"
-                    :useGrouping="false"
-                    placeholder="Kg"
-                  />
-                </div>
-                <div>
-                  Height:
-                  <InputNumber
-                    inputId="withoutgrouping"
-                    v-model="patientHealthTracking.height"
-                    mode="decimal"
-                    :useGrouping="false"
-                    placeholder="Cm"
-                  />
-                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div>
+                <span>Pulse:</span>
+                <InputNumber
+                  inputId="withoutgrouping"
+                  v-model="patientHealthTracking.pulse"
+                  mode="decimal"
+                  :useGrouping="false"
+                  placeholder="bpm"
+                  class="form-control"
+                />
+              </div>
+              <div>
+                <span> Blood Pressure:</span>
+                <InputNumber
+                  inputId="withoutgrouping"
+                  v-model="patientHealthTracking.bloodPressure"
+                  mode="decimal"
+                  :useGrouping="false"
+                  placeholder="mmHg"
+                  class="form-control"
+                />
+              </div>
+              <div>
+                <span>Temperature:</span>
+                <InputNumber
+                  inputId="withoutgrouping"
+                  v-model="patientHealthTracking.tempurature"
+                  mode="decimal"
+                  :useGrouping="false"
+                  placeholder="°C"
+                  class="form-control"
+                />
+              </div>
+              <div>
+                <span> Weight:</span>
+                <InputNumber
+                  inputId="withoutgrouping"
+                  v-model="patientHealthTracking.weight"
+                  mode="decimal"
+                  :useGrouping="false"
+                  placeholder="Kg"
+                  class="form-control"
+                />
+              </div>
+              <div>
+                Height:
+                <InputNumber
+                  inputId="withoutgrouping"
+                  v-model="patientHealthTracking.height"
+                  mode="decimal"
+                  :useGrouping="false"
+                  placeholder="Cm"
+                  class="form-control"
+                />
               </div>
             </div>
           </div>
