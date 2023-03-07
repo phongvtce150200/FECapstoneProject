@@ -86,7 +86,7 @@
                 />
               </div>
               <div>
-                <span> Blood Pressure:</span>
+                <span>Blood Pressure:</span>
                 <InputNumber
                   inputId="withoutgrouping"
                   v-model="patientHealthTracking.bloodPressure"
@@ -108,7 +108,7 @@
                 />
               </div>
               <div>
-                <span> Weight:</span>
+                <span>Weight:</span>
                 <InputNumber
                   inputId="withoutgrouping"
                   v-model="patientHealthTracking.weight"
@@ -119,7 +119,7 @@
                 />
               </div>
               <div>
-                Height:
+                <span>Height:</span>
                 <InputNumber
                   inputId="withoutgrouping"
                   v-model="patientHealthTracking.height"
@@ -211,7 +211,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <h5>Presciption</h5>
               <div class="d-flex justify-content-center align-items-center">
-                <h5 class="me-2">Using Day:</h5>
+                <h5 class="me-2">Using Day.</h5>
                 <InputNumber mode="decimal" :min="0" :max="100" />
               </div>
 
@@ -534,6 +534,12 @@ fieldset legend {
 }
 .p-datatable.p-datatable-gridlines .p-datatable-header {
   background-color: #f8d7d3;
+}
+.p-inputnumber.p-component.p-inputwrapper.form-control {
+  border: none;
+}
+.p-inputnumber.p-component.p-inputwrapper {
+  margin-left: -10px;
 }
 </style>
 <script>
