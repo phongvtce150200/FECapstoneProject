@@ -2,24 +2,47 @@
 <template>
   <div class="container d-flex">
     <div class="col-md-2" style="margin-right: 5px">
-      <Listbox
-        v-model="selectedPatient"
-        :options="queue"
-        :filter="true"
-        optionLabel="patient.user.fullName"
-        listStyle="max-height:250px"
-        style="width: 15rem"
-        filterPlaceholder="Search"
-        @click="setData"
-      >
-        <template #option="item">
-          <div class="country-item">
-            <div>
-              {{ item.option.patient.user.fullName }}
+      <div class="mb-3">
+        <Listbox
+          v-model="selectedPatient"
+          :options="queue"
+          :filter="true"
+          optionLabel="patient.user.fullName"
+          listStyle="max-height:250px"
+          style="width: 15rem"
+          filterPlaceholder="Search"
+          @click="setData"
+        >
+          <template #option="item">
+            <div class="country-item">
+              <div>
+                {{ item.option.patient.user.fullName }}
+              </div>
             </div>
+          </template>
+        </Listbox>
+      </div>
+      <div>
+        <fieldset>
+          <legend><h5>Medical Record</h5></legend>
+          <div class="fieldset-content">
+            <Listbox
+              v-model="selectedPreviousPresciption"
+              listStyle="max-height:250px"
+              :options="previousPresciption"
+              optionLabel="createdDate"
+            >
+              <template #option="item">
+                <div class="country-item">
+                  <div class="text-center">
+                    {{ this.dateToYMD(item.option.createdDate) }}
+                  </div>
+                </div>
+              </template>
+            </Listbox>
           </div>
-        </template>
-      </Listbox>
+        </fieldset>
+      </div>
     </div>
     <div class="col-md-10">
       <div class="mb-3">
@@ -126,78 +149,7 @@
           </div>
         </fieldset>
       </div>
-      <!-- <table class="table table-bordered border-secondary">
-        <thead>
-          <tr>
-            <th colspan="5" class="table-danger">
-              <div class="d-flex justify-content-between">
-                <p>Prescription</p>
-                <div class="d-flex">
-                  <p class="me-2">Using Day:</p>
-                  <input
-                    type="number"
-                    placeholder="Day"
-                    class="form-control"
-                    style="width: 80px"
-                  />
-                </div>
-                <div class="d-flex">
-                  <p class="me-2">Re-examination day:</p>
-                  <input type="date" class="form-control" style="width: 50%" />
-                </div>
-                <button
-                  class="btn btn-danger"
-                  @click="emptyMedicineInPrescription"
-                >
-                  Clear Prescription
-                </button>
-              </div>
-            </th>
-          </tr>
-          <tr>
-            <th>Medicine Name</th>
-            <th>Using/day</th>
-            <th>Using/times</th>
-            <th>Method</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody
-          style="height: 170px; border: 1px solid black"
-          v-if="prescription.length > 0"
-        >
-          <tr v-for="(item, index) in prescription" :key="item.id">
-            <td>{{ item.medicineName }}</td>
-            <td>
-              <input
-                type="text"
-                class="form-control"
-                v-model="item.usingTime"
-              />
-            </td>
-            <td>
-              <input type="text" class="form-control" v-model="item.perTime" />
-            </td>
-            <td>
-              <input type="text" class="form-control" v-model="item.method" />
-            </td>
-            <td>
-              <a
-                class="btn btn-danger"
-                @click="deleteMedicineInPrescription(index, item)"
-                >Delete Medicine</a
-              >
-            </td>
-          </tr>
 
-          <tr></tr>
-        </tbody>
-        <tbody v-else>
-          <tr class="text-center" colspan="5" border="1">
-            no Data
-          </tr>
-        </tbody>
-      </table> -->
       <div class="mb-3">
         <fieldset style="height: 550px">
           <legend>
@@ -276,46 +228,6 @@
           </div>
         </fieldset>
       </div>
-      <!-- <div style="height: 250px; overflow: auto" class="table table-bordered">
-        <table id="medicineList" style="width: 100%; position: relative">
-          <tr>
-            <th class="table-danger" colspan="5">
-              <div class="justify-content-between d-flex">
-                <p>Medicine List</p>
-                <input
-                  type="text"
-                  class="form-control"
-                  style="width: 25%"
-                  placeholder="Medicine Name"
-                />
-              </div>
-            </th>
-          </tr>
-          <tr
-            class="table-danger"
-            style="position: sticky; top: 0; height: 40px; z-index: 99"
-          >
-            <th>Medicine Name</th>
-            <th>Amount</th>
-            <th>Expiration Date</th>
-            <th>Price</th>
-            <th>Action</th>
-          </tr>
-          <tr v-for="(item, index) in medicines" :key="item.id">
-            <td>{{ item.medicineName }}</td>
-            <td>{{ item.medicineName }}</td>
-            <td>{{ dateToYMD(item.expiration) }}</td>
-            <td>{{ item.price }}</td>
-            <td>
-              <a
-                class="btnAddMedicine btn btn-warning text-white"
-                @click="addRowMethod(index, item)"
-                >Add Medicine</a
-              >
-            </td>
-          </tr>
-        </table>
-      </div> -->
       <div>
         <DataTable
           :value="medicines"
@@ -362,7 +274,7 @@
       </div>
     </div>
   </div>
-  <!-- <div
+  <div
     class="modal fade"
     id="printModal"
     tabindex="-1"
@@ -473,8 +385,7 @@
         </div>
       </div>
     </div>
-  </div> -->
-  <button class="btn btn-primary" @click="check">click</button>
+  </div>
 </template>
 <style scoped>
 #patientBody {
@@ -563,6 +474,7 @@ export default {
         tempurature: null,
         weight: null,
       },
+      previousPresciption: [],
     };
   },
   created() {
@@ -610,6 +522,7 @@ export default {
     },
     async getMedicine() {
       // eslint-disable-next-line no-unused-vars
+      this.loading = true;
       HTTP.get("Medicines/GetAllMedicines")
         .then((response) => {
           this.medicines = response.data;
@@ -617,6 +530,7 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+      this.loading = false;
     },
     setData() {
       const clickedItem = this.selectedPatient;
@@ -624,6 +538,7 @@ export default {
       this.patientHealthTracking.patient.user.birthDay = this.dateToYMD(
         this.patientHealthTracking.patient.user.birthDay
       );
+      this.getPreviousPresciption();
       if (clickedItem) {
         console.log(clickedItem);
       }
@@ -664,7 +579,6 @@ export default {
       if (objWithIdIndex > -1) {
         this.prescription.splice(objWithIdIndex, 1);
       }
-      // this.prescription.splice(index, 1);
       const objWithIdIndex1 = this.medicines.findIndex(
         (obj) => obj.id === item.id
       );
@@ -747,6 +661,19 @@ export default {
         <button class="print-btn" onclick="window.print()">Print</button>
       </body>
     </html>`);
+    },
+    async getPreviousPresciption() {
+      await HTTP.get(
+        "Prescription/GetAllPrescriptionsByPatientId/" +
+          this.patientHealthTracking.patient.id
+      )
+        .then((res) => {
+          this.previousPresciption = res.data;
+          console.log(this.previousPresciption);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
