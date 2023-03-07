@@ -48,6 +48,9 @@ import Card from "primevue/card";
 import Breadcrumb from "primevue/breadcrumb";
 import InputSwitch from "primevue/inputswitch";
 import Listbox from "primevue/listbox";
+import Fieldset from "primevue/fieldset";
+import RadioButton from "primevue/radiobutton";
+import CascadeSelect from "primevue/cascadeselect";
 
 const app = createApp(App);
 app.use(BootstrapVue3);
@@ -87,5 +90,9 @@ app.component("Breadcrumb", Breadcrumb);
 app.component("InputSwitch", InputSwitch);
 app.component("Listbox", Listbox);
 app.component("font-awesome-icon", FontAwesomeIcon);
+app.component("Fieldset", Fieldset);
+app.component("RadioButton", RadioButton);
+app.component("CascadeSelect", CascadeSelect);
+
 import "bootstrap/dist/js/bootstrap.js";
 app.mount("#app");
