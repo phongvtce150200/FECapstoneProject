@@ -199,7 +199,7 @@
         </tbody>
       </table> -->
       <div class="mb-3">
-        <fieldset>
+        <fieldset style="height: 550px">
           <legend>
             <div class="d-flex justify-content-between align-items-center">
               <h5>Presciption</h5>
@@ -216,6 +216,7 @@
                 <Button
                   label="Clear Presciption"
                   class="p-button-rounded p-button-danger"
+                  @click="emptyMedicineInPrescription()"
                 />
               </div>
             </div>
@@ -263,8 +264,12 @@
                 </template>
               </Column>
               <Column header="Action">
-                <template #body>
-                  <Button label="Danger" class="p-button-danger" />
+                <template #body="{ data, index }">
+                  <Button
+                    label="Delete"
+                    class="p-button-danger"
+                    @click="deleteMedicineInPrescription(index, data)"
+                  />
                 </template>
               </Column>
             </DataTable>
@@ -318,6 +323,7 @@
           scrollHeight="400px"
           :loading="loading"
           showGridlines
+          id="prescriptionTable"
         >
           <template #header>
             <div class="d-flex justify-content-between align-items-center">
@@ -344,11 +350,11 @@
             </template>
           </Column>
           <Column header="Add Medicine">
-            <template #body="{ data }">
+            <template #body="{ data, index }">
               <Button
                 label="Add Medicine"
-                class="p-button-raised p-button-warning"
-                @click="addRowMethod(data)"
+                class="btnAddMedicine p-button-raised p-button-warning"
+                @click="addRowMethod(index, data)"
               />
             </template>
           </Column>
@@ -535,7 +541,7 @@ export default {
       medicines: [],
       prescription: [],
       doctorName: localStorage.getItem("fullName"),
-
+      loading: false,
       selectedPatient: null,
       patientHealthTracking: {
         bloodPressure: null,
@@ -597,7 +603,6 @@ export default {
       })
         .then((response) => {
           this.queue = response.data;
-          console.log(this.queue);
         })
         .catch((error) => {
           console.log(error);
@@ -608,7 +613,6 @@ export default {
       HTTP.get("Medicines/GetAllMedicines")
         .then((response) => {
           this.medicines = response.data;
-          console.log(this.medicines);
         })
         .catch((error) => {
           console.log(error);
@@ -642,24 +646,15 @@ export default {
       element.classList.add("disable");
       var data = {
         amount: item.amount,
-        createdBy: item.createdBy,
-        createdDate: item.createdDate,
-        deletedDate: item.deletedDate,
         description: item.description,
-        expiration: item.expiration,
         id: item.id,
-        isDelete: item.isDelete,
         medicineName: item.medicineName,
-        price: item.price,
-        updatedBy: item.updatedBy,
-        updatedDate: item.updatedDate,
         usingTime: null,
-        perTime: null,
-        method: null,
+        timesPerDay: null,
+        usingType: null,
+        session: null,
       };
-      console.log(data);
       this.prescription.push(data);
-      console.log(this.prescription);
     },
     deleteMedicineInPrescription(index, item) {
       const objWithIdIndex = this.prescription.findIndex(
@@ -680,6 +675,10 @@ export default {
     },
     emptyMedicineInPrescription() {
       this.prescription = [];
+      var itemClass = document.querySelectorAll(".btnAddMedicine");
+      itemClass.forEach((el) => {
+        el.classList.remove("disable");
+      });
     },
     openNewTab() {
       const printWindow = window.open("", "_blank", "width=400,height=500");
