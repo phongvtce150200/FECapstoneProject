@@ -6,12 +6,20 @@
       <h2>Register for more</h2>
     </div>
     <div class="d-flex justify-content-around">
-      <input type="text" placeholder="First Name" />
-      <input type="text" placeholder="Last Name" />
+      <input
+        type="text"
+        placeholder="First Name"
+        v-model="registerData.firstName"
+      />
+      <input
+        type="text"
+        placeholder="Last Name"
+        v-model="registerData.lastName"
+      />
     </div>
     <div class="d-flex justify-content-around">
-      <input type="email" placeholder="Email" />
-      <select name="" id="">
+      <input type="email" placeholder="Email" v-model="registerData.email" />
+      <select v-model="registerData.gender">
         <option value="" disabled selected>Gender</option>
         <option value="1">Male</option>
         <option value="0">Female</option>
@@ -19,7 +27,7 @@
       </select>
     </div>
     <div class="d-flex justify-content-around">
-      <input type="text" placeholder="Address" />
+      <input type="text" placeholder="Address" v-model="registerData.address" />
       <input type="number" placeholder="National ID" />
     </div>
     <div class="d-flex justify-content-around">
@@ -29,12 +37,21 @@
         type="text"
         onfocus="(this.type='date')"
         id="date"
+        v-model="registerData.birthday"
       />
-      <input type="text" placeholder="Phone Number" />
+      <input
+        type="text"
+        placeholder="Phone Number"
+        v-model="registerData.phoneNumber"
+      />
     </div>
-    <input type="text" placeholder="Username" />
+    <input type="text" placeholder="Username" v-model="registerData.UserName" />
     <div class="d-flex justify-content-around">
-      <input type="password" placeholder="Password" />
+      <input
+        type="password"
+        placeholder="Password"
+        v-model="registerData.Password"
+      />
       <input type="password" placeholder="Confirm Password" />
     </div>
     <a
@@ -44,7 +61,9 @@
       >Need help?</a
     >
     <div class="d-flex justify-content-center">
-      <button type="submit" class="confrim w-50">Submit</button>
+      <button type="submit" class="confrim w-50" @click="register">
+        Submit
+      </button>
     </div>
   </div>
 </template>
@@ -74,11 +93,20 @@ export default {
         .then((respone) => {
           console.log(respone);
           this.$router.push({ name: "Login", params: {} });
+          this.showSuccess();
         })
         .catch((error) => {
           console.log(error);
         });
     },
+  },
+  showSuccess() {
+    this.$toast.add({
+      severity: "success",
+      summary: "Success Message",
+      detail: "Message Content",
+      life: 3000,
+    });
   },
 };
 </script>
