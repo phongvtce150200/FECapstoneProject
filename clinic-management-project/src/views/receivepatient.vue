@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <fieldset>
-    <legend>Patient Infomation</legend>
+    <legend><h5>Patient Infomation</h5></legend>
     <div class="fieldset-content">
       <div class="d-flex justify-content-between">
         <div>
@@ -102,7 +102,7 @@
         <fieldset>
           <legend>
             <div class="d-flex justify-content-between align-items-center">
-              Doctor's Appoitment
+              <h5>Doctor's Appoitment</h5>
               <div>
                 <Dropdown
                   v-model="idDoctor"
@@ -125,7 +125,7 @@
                 class="d-flex justify-content-between align-items-center"
                 style="height: 44px"
               >
-                Queue Ticket
+                <h5>Queue Ticket</h5>
                 <a href="" style="text-decoration: none; color: black">
                   <i class="fa-solid fa-print"></i>
                 </a>

@@ -47,6 +47,7 @@ import Avatar from "primevue/avatar";
 import Card from "primevue/card";
 import Breadcrumb from "primevue/breadcrumb";
 import InputSwitch from "primevue/inputswitch";
+import Listbox from "primevue/listbox";
 
 const app = createApp(App);
 app.use(BootstrapVue3);
@@ -84,6 +85,7 @@ app.component("Avatar", Avatar);
 app.component("Card", Card);
 app.component("Breadcrumb", Breadcrumb);
 app.component("InputSwitch", InputSwitch);
+app.component("Listbox", Listbox);
 app.component("font-awesome-icon", FontAwesomeIcon);
 import "bootstrap/dist/js/bootstrap.js";
 app.mount("#app");
