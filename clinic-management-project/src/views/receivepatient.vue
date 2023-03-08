@@ -3,7 +3,7 @@
   <fieldset>
     <legend><h5>Patient Infomation</h5></legend>
     <div class="fieldset-content">
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-between align-items-center">
         <div>
           <span>Full Name:</span>
           <AutoComplete
@@ -344,5 +344,14 @@ fieldset legend {
 .p-autocomplete.p-component.p-inputwrapper.form-control {
   border: none;
   margin-left: -10px;
+}
+.p-autocomplete.p-component.p-inputwrapper {
+  width: 90%;
+}
+.fieldset-content .p-dropdown {
+  height: 55%;
+  margin-top: 5px;
+  align-items: center;
+  width: 180px;
 }
 </style>
