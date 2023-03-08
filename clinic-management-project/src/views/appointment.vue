@@ -19,6 +19,10 @@
         </li>
         <li>Book an appointment online by filling out the form below.</li>
         <li>
+          If you don't see any slots to pick, please make sure that you have
+          already chosed the doctor and picked a day.
+        </li>
+        <li>
           Please note, in case of emergency, please immediately go to the
           nearest medical facility or go directly to the EGO Polyclinic System.
         </li>
@@ -86,21 +90,46 @@
                     />
                   </div>
                   <div class="col-sm-4">
-                    <Button label="Slot 2" class="w-100" v-model="slot2" />
+                    <Button
+                      label="Slot 2"
+                      class="w-100"
+                      v-model="slot2"
+                      :disabled="disabledButtons[1]"
+                    />
                   </div>
                   <div class="col-sm-4">
-                    <Button label="Slot 3" class="w-100" v-model="slot3" />
+                    <Button
+                      label="Slot 3"
+                      class="w-100"
+                      v-model="slot3"
+                      :disabled="disabledButtons[2]"
+                    />
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-4">
-                    <Button label="Slot 4" class="w-100" v-model="slot4" />
+                    <Button
+                      label="Slot 4"
+                      class="w-100"
+                      v-model="slot4"
+                      :disabled="disabledButtons[3]"
+                    />
                   </div>
                   <div class="col-sm-4">
-                    <Button label="Slot 5" class="w-100" v-model="slot5" />
+                    <Button
+                      label="Slot 5"
+                      class="w-100"
+                      v-model="slot5"
+                      :disabled="disabledButtons[4]"
+                    />
                   </div>
                   <div class="col-sm-4">
-                    <Button label="Slot 6" class="w-100" v-model="slot6" />
+                    <Button
+                      label="Slot 6"
+                      class="w-100"
+                      v-model="slot6"
+                      :disabled="disabledButtons[5]"
+                    />
                   </div>
                 </div>
               </div>
@@ -113,13 +142,6 @@
                     cols="70"
                     placeholder="Enter your medical condition, questions for the doctor and health problems to see"
                   />
-                  <!-- <textarea
-                  name=""
-                  id=""
-                  cols="30"
-                  rows="10"
-                  placeholder="Enter your medical condition, questions for the doctor and health problems to see"
-                ></textarea> -->
                 </div>
               </div>
               <a
@@ -133,75 +155,6 @@
           </div>
         </div>
       </Fieldset>
-
-      <div
-        class="container mt-3"
-        style="display: flex; justify-content: center"
-      >
-        <div class="card" style="width: 50rem; border-radius: 11px">
-          <div
-            class="card-header"
-            style="
-              background-color: #cb5850;
-              border-radius: 10px;
-              height: 70px;
-              align-items: center;
-              display: flex;
-            "
-          ></div>
-
-          <div class="card-body">
-            <p class="card-text">Choose a test location</p>
-            <div class="d-flex justify-content-around mb-3">
-              <div>
-                <input type="radio" name="location" />EGO General Clinic (Can
-                Tho City)
-              </div>
-              <div>
-                <input type="radio" name="location" /> EGO General Clinic (Ha
-                Noi)
-              </div>
-            </div>
-            <p class="card-text">Select type of examination service</p>
-            <div class="d-flex justify-content-around mb-3">
-              <div><input type="radio" name="method" />Check in time</div>
-              <div><input type="radio" name="method" /> Out of time</div>
-              <div><input type="radio" name="method" /> Online examination</div>
-            </div>
-            <div class="d-flex justify-content-around mb-3">
-              <div>
-                <input type="text" placeholder="Choose a medical specialty" />
-              </div>
-              <div><input type="text" placeholder="Choose a doctor" /></div>
-            </div>
-            <div class="d-flex justify-content-center mb-3">
-              <input
-                type="text"
-                placeholder="Choose the date and time of your medical examination"
-              />
-            </div>
-            <p class="card-text">Health problems that need to be examined</p>
-            <div class="d-flex justify-content-around mb-3">
-              <div>
-                <textarea
-                  name=""
-                  id=""
-                  cols="30"
-                  rows="10"
-                  placeholder="Enter your medical condition, questions for the doctor and health problems to see"
-                ></textarea>
-              </div>
-            </div>
-            <a
-              href="#"
-              class="submit-button d-flex justify-content-center"
-              style="text-decoration: none"
-            >
-              <span class="text-white text-decoration-none">Submit</span>
-            </a>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -242,6 +195,7 @@ export default {
     this.getAllDocs();
     await this.getDocApms();
     this.createSlot();
+    this.checkSlot();
   },
   methods: {
     async getAllServices() {
@@ -278,61 +232,49 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-      this.checkSlot();
       this.loading = false;
     },
     createSlot() {
-      const date1 = new Date();
-      date1.setHours(8, 0, 0, 0);
-      this.slot1 = date1;
+      // const date1 = new Date();
+      // date1.setHours(8, 0, 0, 0);
+      // this.slot1 = date1;
 
-      const date2 = new Date();
-      date2.setHours(9, 30, 0, 0);
-      this.slot2 = date2;
+      // const date2 = new Date();
+      // date2.setHours(9, 30, 0, 0);
+      // this.slot2 = date2;
 
-      const date3 = new Date();
-      date3.setHours(11, 0, 0, 0);
-      this.slot3 = date3;
+      // const date3 = new Date();
+      // date3.setHours(11, 0, 0, 0);
+      // this.slot3 = date3;
 
-      const date4 = new Date();
-      date4.setHours(14, 0, 0, 0);
-      this.slot4 = date4;
+      // const date4 = new Date();
+      // date4.setHours(14, 0, 0, 0);
+      // this.slot4 = date4;
 
-      const date5 = new Date();
-      date5.setHours(15, 30, 0, 0);
-      this.slot5 = date5;
+      // const date5 = new Date();
+      // date5.setHours(15, 30, 0, 0);
+      // this.slot5 = date5;
 
-      const date6 = new Date();
-      date6.setHours(17, 0, 0, 0);
-      this.slot6 = date6;
+      // const date6 = new Date();
+      // date6.setHours(17, 0, 0, 0);
+      // this.slot6 = date6;
+
+      const slotTimes = [
+        [8, 0], // Slot 1
+        [9, 30], // Slot 2
+        [11, 0], // Slot 3
+        [14, 0], // Slot 4
+        [15, 30], // Slot 5
+        [17, 0], // Slot 6
+      ];
+
+      for (let i = 0; i < slotTimes.length; i++) {
+        const [hours, minutes] = slotTimes[i];
+        const date = new Date();
+        date.setHours(hours, minutes, 0, 0);
+        this["slot" + (i + 1)] = date;
+      }
     },
-    // checkSlot() {
-    //   const slotTimes = [
-    //     this.slot1,
-    //     this.slot2,
-    //     this.slot3,
-    //     this.slot4,
-    //     this.slot5,
-    //     this.slot6,
-    //   ];
-
-    //   const results = slotTimes.map((slotTime) => {
-    //     console.log(slotTime.getHours());
-    //     const slotTimeHour = slotTime.getHours();
-    //     for (let i = 0; i < this.schedules.length; i++) {
-    //       const scheduleTime = new Date(this.schedules[i].start);
-    //       const scheduleTimeHour = scheduleTime.getHours();
-
-    //       if (slotTimeHour === scheduleTimeHour) {
-    //         return true;
-    //       }
-    //     }
-    //     return false;
-    //   });
-    //   this.disabledButtons = results;
-    //   console.log(this.disabledButtons);
-    //   return results;
-    // },
     checkSlot() {
       const slotTimes = [
         this.slot1,
@@ -342,27 +284,22 @@ export default {
         this.slot5,
         this.slot6,
       ];
-      const disabledButtons = [];
+      const results = slotTimes.map((slotTime) => {
+        const slotHour = slotTime.getHours();
+        console.log("this is slot hour: ", slotHour);
+        for (let i = 0; i < this.schedules.length; i++) {
+          const scheduleHour = new Date(this.schedules[i].start).getHours();
+          console.log("this is schedule", i, "hour: ", scheduleHour);
 
-      for (let i = 0; i < slotTimes.length; i++) {
-        if (slotTimes[i] instanceof Date) {
-          const slotTime = slotTimes[i];
-          for (let j = 0; j < this.schedules.length; j++) {
-            const scheduleTime = new Date(this.schedules[j].start);
-            if (slotTime.getHours() === scheduleTime.getHours()) {
-              disabledButtons.push(true);
-              break;
-            }
+          if (slotHour === scheduleHour) {
+            return true;
           }
-          if (disabledButtons.length === i) {
-            disabledButtons.push(false);
-          }
-        } else {
-          disabledButtons.push(false);
         }
-      }
-
-      return disabledButtons;
+        return false;
+      });
+      this.disabledButtons = results;
+      console.log(this.disabledButtons);
+      return results;
     },
   },
 };
