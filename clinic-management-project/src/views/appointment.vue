@@ -27,7 +27,14 @@
           nearest medical facility or go directly to the EGO Polyclinic System.
         </li>
       </div>
-      <Fieldset legend="Make appointment">
+      <Fieldset>
+        <template #legend>
+          <div class="flex align-items-center text-primary">
+            <span class="font-bold text-white text-center"
+              >Make Appointment</span
+            >
+          </div>
+        </template>
         <div
           class="container mt-3"
           style="display: flex; justify-content: center"
@@ -72,56 +79,107 @@
               <div class="container">
                 <span>Slots:</span>
                 <div class="row mb-3">
-                  <div class="col-sm-4">
-                    <Button
-                      label="Slot 1"
-                      class="w-100 p-button-primary"
-                      v-model="slot1"
-                      :disabled="disabledButtons[0]"
-                    />
+                  <!-- <div class="col-sm-4">
+                    <div class="cat action">
+                      <label>
+                        <input
+                          type="checkbox"
+                          value="1"
+                          :disabled="disabledButtons[0]"
+                        /><span :class="{ cantChoose: disabledButtons[0] }"
+                          >Action</span
+                        >
+                      </label>
+                    </div>
+                  </div> -->
+                  <div
+                    class="col-sm-4"
+                    v-for="(disabled, index) in disabledButtons"
+                    :key="index"
+                  >
+                    <div class="cat action">
+                      <label>
+                        <input
+                          type="checkbox"
+                          :disabled="disable || !selectDocs || !date"
+                          :checked="selectedSlot === index"
+                          @click="selectedSlot = index"
+                        /><span
+                          :class="{
+                            cantChoose: disabled || !selectDocs || !date,
+                          }"
+                          >Slot {{ index + 1 }}</span
+                        >
+                      </label>
+                    </div>
+                  </div>
+                  <!-- <div class="col-sm-4">
+                    <div class="cat action">
+                      <label>
+                        <input
+                          type="checkbox"
+                          value="1"
+                          :disabled="disabledButtons[1]"
+                        /><span :class="{ cantChoose: disabledButtons[1] }"
+                          >Action</span
+                        >
+                      </label>
+                    </div>
                   </div>
                   <div class="col-sm-4">
-                    <Button
-                      label="Slot 2"
-                      class="w-100 p-button-primary"
-                      v-model="slot2"
-                      :disabled="disabledButtons[1]"
-                    />
-                  </div>
-                  <div class="col-sm-4">
-                    <Button
-                      label="Slot 3"
-                      class="w-100 p-button-primary"
-                      v-model="slot3"
-                      :disabled="disabledButtons[2]"
-                    />
+                    <div class="cat action">
+                      <label>
+                        <input
+                          type="checkbox"
+                          value="1"
+                          :disabled="disabledButtons[2]"
+                        /><span :class="{ cantChoose: disabledButtons[2] }"
+                          >Action</span
+                        >
+                      </label>
+                    </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-4">
-                    <Button
-                      label="Slot 4"
-                      class="w-100 p-button-primary"
-                      v-model="slot4"
-                      :disabled="disabledButtons[3]"
-                    />
+                    <div class="cat action">
+                      <label>
+                        <input
+                          type="checkbox"
+                          value="1"
+                          :disabled="disabledButtons[3]"
+                        /><span :class="{ cantChoose: disabledButtons[3] }"
+                          >Action</span
+                        >
+                      </label>
+                    </div>
                   </div>
                   <div class="col-sm-4">
-                    <Button
-                      label="Slot 5"
-                      class="w-100 p-button-primary"
-                      v-model="slot5"
-                      :disabled="disabledButtons[4]"
-                    />
+                    <div class="cat action">
+                      <label>
+                        <input
+                          type="checkbox"
+                          value="1"
+                          :disabled="disabledButtons[4]"
+                        /><span :class="{ cantChoose: disabledButtons[4] }"
+                          >Action</span
+                        >
+                      </label>
+                    </div>
                   </div>
                   <div class="col-sm-4">
-                    <Button
-                      label="Slot 6"
-                      class="w-100 p-button-primary"
-                      v-model="slot6"
-                      :disabled="disabledButtons[5]"
-                    />
-                  </div>
+                    <div class="cat action">
+                      <label>
+                        <input
+                          type="checkbox"
+                          value="1"
+                          :disabled="disabledButtons[5]"
+                        /><span :class="{ cantChoose: disabledButtons[5] }"
+                          >Action</span
+                        >
+                      </label>
+                    </div>
+                  </div> -->
                 </div>
               </div>
               <span>Reason</span>
@@ -160,7 +218,7 @@ export default {
       services: [],
       doctors: [],
       schedules: [],
-      disabledButtons: [],
+      disabledButtons: [false, false, false, false, false, false],
       selectDocs: null,
       appointment: {
         DoctorId: null,
@@ -173,12 +231,8 @@ export default {
           SubTotal: null,
         },
       },
-      slot1: "",
-      slot2: "",
-      slot3: "",
-      slot4: "",
-      slot5: "",
-      slot6: "",
+
+      selectedSlot: [false, false, false, false, false, false],
     };
   },
   watch: {
@@ -240,6 +294,29 @@ export default {
         this["slot" + (i + 1)] = date;
       }
     },
+    // checkSlot() {
+    //   const slotTimes = [
+    //     this.slot1,
+    //     this.slot2,
+    //     this.slot3,
+    //     this.slot4,
+    //     this.slot5,
+    //     this.slot6,
+    //   ];
+    //   const results = slotTimes.map((slotTime) => {
+    //     const slotHour = slotTime.getHours();
+    //     for (let i = 0; i < this.schedules.length; i++) {
+    //       const scheduleHour = new Date(this.schedules[i].start).getHours();
+
+    //       if (slotHour === scheduleHour) {
+    //         return true;
+    //       }
+    //     }
+    //     return false;
+    //   });
+    //   this.disabledButtons = results;
+    //   return results;
+    // },
     checkSlot() {
       const slotTimes = [
         this.slot1,
@@ -249,20 +326,34 @@ export default {
         this.slot5,
         this.slot6,
       ];
-      const results = slotTimes.map((slotTime) => {
+      const results = slotTimes.map((slotTime, index) => {
+        // include index for tracking selectedSlot
         const slotHour = slotTime.getHours();
         for (let i = 0; i < this.schedules.length; i++) {
           const scheduleHour = new Date(this.schedules[i].start).getHours();
-
           if (slotHour === scheduleHour) {
+            if (this.selectedSlot === index) {
+              this.selectedSlot = null; // reset selectedSlot if checkbox is disabled
+            }
             return true;
           }
+        }
+        if (this.disabledButtons[index]) {
+          if (this.selectedSlot === index) {
+            this.selectedSlot = null; // reset selectedSlot if checkbox is disabled
+          }
+          return true;
         }
         return false;
       });
       this.disabledButtons = results;
+      if (this.selectedSlot === null) {
+        // select the first available slot if none is selected
+        this.selectedSlot = results.indexOf(false);
+      }
       return results;
     },
+
     checkDoctorSchedule(doc, date) {
       const docId = doc;
       const formattedDate = this.dateToYMD(date);
@@ -274,10 +365,12 @@ export default {
         .then((res) => {
           this.schedules = res.data;
           this.checkSlot();
+          this.showSuccess();
         })
         .catch((err) => {
           console.log(err);
           this.disabledButtons = [false, false, false, false, false, false];
+          this.showSuccess();
         });
     },
     dateToYMD(end_date) {
@@ -288,6 +381,14 @@ export default {
       return (
         "" + y + "-" + (m <= 9 ? "0" + m : m) + "-" + (d <= 9 ? "0" + d : d)
       );
+    },
+    showSuccess() {
+      this.$toast.add({
+        severity: "success",
+        summary: "Success Message",
+        detail: "Message Content",
+        life: 3000,
+      });
     },
   },
 };
@@ -340,5 +441,43 @@ textarea {
 }
 .p-fieldset {
   background-color: #fecccc;
+}
+
+.cat {
+  margin: 4px;
+  background-color: #3b82f6;
+  border-radius: 4px;
+  border: 1px solid #fff;
+  overflow: hidden;
+  float: left;
+}
+.cat label {
+  float: left;
+  line-height: 3em;
+  width: 10em;
+  height: 3em;
+}
+.cat label span {
+  text-align: center;
+  display: block;
+}
+.cat label input {
+  position: absolute;
+  display: none;
+  color: #fff !important;
+}
+.cat label input + span {
+  color: #fff;
+}
+.cat input:checked + span {
+  color: #ffffff;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+}
+.action input:checked + span {
+  background-color: blue;
+}
+.cantChoose {
+  background-color: gray;
+  pointer-events: none;
 }
 </style>

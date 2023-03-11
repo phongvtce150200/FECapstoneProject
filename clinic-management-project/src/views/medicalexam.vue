@@ -42,6 +42,24 @@
             </Listbox>
           </div>
         </fieldset>
+        <div
+          style="
+            align-items: center;
+            flex-direction: column;
+            justify-content: space-around;
+            display: flex;
+          "
+        >
+          <button
+            id="saveAndPrintBtn"
+            data-bs-toggle="modal"
+            data-bs-target="#printModal"
+            class="btn btn-success"
+            style="margin-bottom: 20px"
+          >
+            Save and Print
+          </button>
+        </div>
       </div>
     </div>
     <div class="col-md-10">
@@ -198,28 +216,44 @@
                 </template>
               </Column>
               <Column header="Amount">
-                <template #editor="{ data, amount }">
-                  <InputText v-model="data[amount]" type="text" width="50%" />
+                <template #body="{ data }">
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="data.amount"
+                  />
                 </template>
               </Column>
               <Column header="Using Day">
-                <template #editor="{ data, usingDay }">
-                  <InputText v-model="data[usingDay]" type="text" />
+                <template #body="{ data }">
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="data.usingDay"
+                  />
                 </template>
               </Column>
               <Column header="Times Per Day">
-                <template #editor="{ data, timesPerDay }">
-                  <InputText v-model="data[timesPerDay]" type="text" />
+                <template #body="{ data }">
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="data.timesPerDay"
+                  />
                 </template>
               </Column>
               <Column header="Using Type">
-                <template #editor="{ data, usingType }">
-                  <InputText v-model="data[usingType]" type="text" />
+                <template #body="{ data }">
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="data.usingType"
+                  />
                 </template>
               </Column>
               <Column header="Session">
                 <template #body>
-                  <Dropdown optionLabel="Session" :editable="true" />
+                  <Dropdown optionLabel="Session" />
                 </template>
               </Column>
               <Column header="Action">
@@ -277,6 +311,10 @@
               />
             </template>
           </Column>
+          <template #empty> No project found. </template>
+          <template #loading>
+            <ProgressSpinner />
+          </template>
         </DataTable>
       </div>
     </div>
@@ -358,8 +396,8 @@
                   <td>{{ ++index }}</td>
                   <td>{{ item.medicineName }}</td>
                   <td>{{ item.usingTime }}</td>
-                  <td>{{ item.perTime }}</td>
-                  <td>{{ item.method }}</td>
+                  <td>{{ item.timesPerDay }}</td>
+                  <td>{{ item.usingType }}</td>
                 </tr>
               </tbody>
             </table>
@@ -583,6 +621,7 @@ export default {
         session: null,
       };
       this.prescription.push(data);
+      console.log(this.prescription);
     },
     deleteMedicineInPrescription(index, item) {
       const objWithIdIndex = this.prescription.findIndex(
