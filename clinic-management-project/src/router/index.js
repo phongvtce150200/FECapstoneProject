@@ -271,6 +271,14 @@ const routes = [
     },
     component: () => import("../views/login.vue"),
   },
+  {
+    path: "/Test",
+    name: "Test",
+    meta: {
+      layout: "admin",
+    },
+    component: () => import("../views/test.vue"),
+  },
 ];
 
 const router = createRouter({

@@ -272,14 +272,14 @@ export default {
       HTTP.post("Nurse", this.user)
         .then((res) => {
           console.log(res);
+          this.closeModal();
+          this.getAllNurse();
           this.$toast.add({
             severity: "success",
             summary: "Success Message",
             detail: "Message Content",
             life: 3000,
           });
-          this.closeModal();
-          this.getAllNurse();
         })
         .then((error) => {
           console.log(error);

@@ -7,7 +7,7 @@
           :src="require('@/assets/image/doctorImg.jpg')"
           alt="Image"
           preview
-          class="card-top"
+          class="card-top" save di
         /> -->
       </div>
       <div class="col-md-9">
