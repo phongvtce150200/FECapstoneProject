@@ -35,36 +35,40 @@
             {{ fullName == "" ? "Ẩn Danh" : fullName
             }}<i class="fa-regular fa-user ms-1"></i>
           </button>
-          <ul
-            class="dropdown-menu"
-            :class="{ show: dropdown }"
-            aria-labelledby="dropdownMenuButton1"
-            style="width: 200px"
-            :style="{
-              'position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px)':
-                dropdown == false,
-            }"
-          >
-            <li class="d-flex align-items-center">
-              <img
-                src="../assets/image/user.png"
-                height="30"
-                width="30"
-                class="me-3 ms-3"
-              />
-              <h5>{{ fullName }}</h5>
-            </li>
-            <p class="text-center">@ViewBag.Role</p>
-            <hr />
-            <li>
-              <a
-                class="dropdown-item"
-                :href="$router.resolve({ name: 'home', params: {} }).href"
-                @click="logout"
-                >Logout</a
+          <div>
+            <ul
+              class="dropdown-menu"
+              :class="{ show: dropdown }"
+              aria-labelledby="dropdownMenuButton1"
+              style="width: 200px"
+            >
+              <router-link
+                :to="{ name: 'Dashboard', params: {} }"
+                style="color: black; text-decoration: none"
               >
-            </li>
-          </ul>
+                <li class="d-flex align-items-center">
+                  <img
+                    src="../assets/image/user.png"
+                    height="30"
+                    width="30"
+                    class="me-3 ms-3"
+                  />
+                  <h5>{{ fullName }}</h5>
+                </li>
+              </router-link>
+
+              <p class="text-center">{{ this.role }}</p>
+              <hr />
+              <li>
+                <a
+                  class="dropdown-item"
+                  :href="$router.resolve({ name: 'home', params: {} }).href"
+                  @click="logout"
+                  >Logout</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <slot />
@@ -81,6 +85,7 @@ export default {
       isActive: false,
       fullName: localStorage.getItem("fullName"),
       dropdown: false,
+      role: localStorage.getItem("role"),
     };
   },
   methods: {

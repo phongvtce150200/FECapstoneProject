@@ -27,14 +27,21 @@
           nearest medical facility or go directly to the EGO Polyclinic System.
         </li>
       </div>
-      <Fieldset legend="Make appointment">
+      <Fieldset>
+        <template #legend>
+          <div class="flex align-items-center text-primary">
+            <span class="font-bold text-white text-center"
+              >Make Appointment</span
+            >
+          </div>
+        </template>
         <div
           class="container mt-3"
           style="display: flex; justify-content: center"
         >
           <div class="d-flex flex-column">
             <div class="p-2">
-              <div class="d-flex flex-row">
+              <div class="d-flex flex-row justify-content-between">
                 <div class="p-2">
                   <Dropdown
                     v-model="selectDocs"
@@ -43,23 +50,14 @@
                     placeholder="Please select a Doctor"
                   />
                 </div>
+
                 <div class="p-2">
                   <div class="field col-12 md:col-4">
                     <Calendar
                       inputId="datetemplate"
-                      v-model="date12"
+                      v-model="date"
                       placeholder="Please pick a day"
                     >
-                      <template #date="slotProps">
-                        <strong
-                          v-if="
-                            slotProps.date.day > 10 && slotProps.date.day < 15
-                          "
-                          class="special-day"
-                          >{{ slotProps.date.day }}</strong
-                        >
-                        <template v-else>{{ slotProps.date.day }}</template>
-                      </template>
                     </Calendar>
                   </div>
                 </div>
@@ -81,56 +79,107 @@
               <div class="container">
                 <span>Slots:</span>
                 <div class="row mb-3">
-                  <div class="col-sm-4">
-                    <Button
-                      label="Slot 1"
-                      class="w-100"
-                      v-model="slot1"
-                      :disabled="disabledButtons[0]"
-                    />
+                  <!-- <div class="col-sm-4">
+                    <div class="cat action">
+                      <label>
+                        <input
+                          type="checkbox"
+                          value="1"
+                          :disabled="disabledButtons[0]"
+                        /><span :class="{ cantChoose: disabledButtons[0] }"
+                          >Action</span
+                        >
+                      </label>
+                    </div>
+                  </div> -->
+                  <div
+                    class="col-sm-4"
+                    v-for="(disabled, index) in disabledButtons"
+                    :key="index"
+                  >
+                    <div class="cat action">
+                      <label>
+                        <input
+                          type="checkbox"
+                          :disabled="disable || !selectDocs || !date"
+                          :checked="selectedSlot === index"
+                          @click="selectedSlot = index"
+                        /><span
+                          :class="{
+                            cantChoose: disabled || !selectDocs || !date,
+                          }"
+                          >Slot {{ index + 1 }}</span
+                        >
+                      </label>
+                    </div>
+                  </div>
+                  <!-- <div class="col-sm-4">
+                    <div class="cat action">
+                      <label>
+                        <input
+                          type="checkbox"
+                          value="1"
+                          :disabled="disabledButtons[1]"
+                        /><span :class="{ cantChoose: disabledButtons[1] }"
+                          >Action</span
+                        >
+                      </label>
+                    </div>
                   </div>
                   <div class="col-sm-4">
-                    <Button
-                      label="Slot 2"
-                      class="w-100"
-                      v-model="slot2"
-                      :disabled="disabledButtons[1]"
-                    />
-                  </div>
-                  <div class="col-sm-4">
-                    <Button
-                      label="Slot 3"
-                      class="w-100"
-                      v-model="slot3"
-                      :disabled="disabledButtons[2]"
-                    />
+                    <div class="cat action">
+                      <label>
+                        <input
+                          type="checkbox"
+                          value="1"
+                          :disabled="disabledButtons[2]"
+                        /><span :class="{ cantChoose: disabledButtons[2] }"
+                          >Action</span
+                        >
+                      </label>
+                    </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-sm-4">
-                    <Button
-                      label="Slot 4"
-                      class="w-100"
-                      v-model="slot4"
-                      :disabled="disabledButtons[3]"
-                    />
+                    <div class="cat action">
+                      <label>
+                        <input
+                          type="checkbox"
+                          value="1"
+                          :disabled="disabledButtons[3]"
+                        /><span :class="{ cantChoose: disabledButtons[3] }"
+                          >Action</span
+                        >
+                      </label>
+                    </div>
                   </div>
                   <div class="col-sm-4">
-                    <Button
-                      label="Slot 5"
-                      class="w-100"
-                      v-model="slot5"
-                      :disabled="disabledButtons[4]"
-                    />
+                    <div class="cat action">
+                      <label>
+                        <input
+                          type="checkbox"
+                          value="1"
+                          :disabled="disabledButtons[4]"
+                        /><span :class="{ cantChoose: disabledButtons[4] }"
+                          >Action</span
+                        >
+                      </label>
+                    </div>
                   </div>
                   <div class="col-sm-4">
-                    <Button
-                      label="Slot 6"
-                      class="w-100"
-                      v-model="slot6"
-                      :disabled="disabledButtons[5]"
-                    />
-                  </div>
+                    <div class="cat action">
+                      <label>
+                        <input
+                          type="checkbox"
+                          value="1"
+                          :disabled="disabledButtons[5]"
+                        /><span :class="{ cantChoose: disabledButtons[5] }"
+                          >Action</span
+                        >
+                      </label>
+                    </div>
+                  </div> -->
                 </div>
               </div>
               <span>Reason</span>
@@ -164,12 +213,12 @@ import { HTTP } from "@/axios";
 export default {
   data() {
     return {
-      date12: null,
+      date: null,
       selectServices: null,
       services: [],
       doctors: [],
       schedules: [],
-      disabledButtons: [],
+      disabledButtons: [false, false, false, false, false, false],
       selectDocs: null,
       appointment: {
         DoctorId: null,
@@ -182,18 +231,25 @@ export default {
           SubTotal: null,
         },
       },
-      slot1: "",
-      slot2: "",
-      slot3: "",
-      slot4: "",
-      slot5: "",
-      slot6: "",
+
+      selectedSlot: [false, false, false, false, false, false],
     };
+  },
+  watch: {
+    selectDocs: function () {
+      if (this.selectDocs && this.date) {
+        this.checkDoctorSchedule(this.selectDocs.id, this.date);
+      }
+    },
+    date: function () {
+      if (this.selectDocs && this.date) {
+        this.checkDoctorSchedule(this.selectDocs.id, this.date);
+      }
+    },
   },
   async created() {
     this.getAllServices();
     this.getAllDocs();
-    await this.getDocApms();
     this.createSlot();
     this.checkSlot();
   },
@@ -221,44 +277,7 @@ export default {
         });
       this.loading = false;
     },
-    async getDocApms() {
-      this.loading = true;
-      await HTTP.get(
-        `ReservedSchedules/GetDocScheduleByDate?DocId=1&date=3%2F8%2F2022`
-      )
-        .then((response) => {
-          this.schedules = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      this.loading = false;
-    },
     createSlot() {
-      // const date1 = new Date();
-      // date1.setHours(8, 0, 0, 0);
-      // this.slot1 = date1;
-
-      // const date2 = new Date();
-      // date2.setHours(9, 30, 0, 0);
-      // this.slot2 = date2;
-
-      // const date3 = new Date();
-      // date3.setHours(11, 0, 0, 0);
-      // this.slot3 = date3;
-
-      // const date4 = new Date();
-      // date4.setHours(14, 0, 0, 0);
-      // this.slot4 = date4;
-
-      // const date5 = new Date();
-      // date5.setHours(15, 30, 0, 0);
-      // this.slot5 = date5;
-
-      // const date6 = new Date();
-      // date6.setHours(17, 0, 0, 0);
-      // this.slot6 = date6;
-
       const slotTimes = [
         [8, 0], // Slot 1
         [9, 30], // Slot 2
@@ -275,6 +294,29 @@ export default {
         this["slot" + (i + 1)] = date;
       }
     },
+    // checkSlot() {
+    //   const slotTimes = [
+    //     this.slot1,
+    //     this.slot2,
+    //     this.slot3,
+    //     this.slot4,
+    //     this.slot5,
+    //     this.slot6,
+    //   ];
+    //   const results = slotTimes.map((slotTime) => {
+    //     const slotHour = slotTime.getHours();
+    //     for (let i = 0; i < this.schedules.length; i++) {
+    //       const scheduleHour = new Date(this.schedules[i].start).getHours();
+
+    //       if (slotHour === scheduleHour) {
+    //         return true;
+    //       }
+    //     }
+    //     return false;
+    //   });
+    //   this.disabledButtons = results;
+    //   return results;
+    // },
     checkSlot() {
       const slotTimes = [
         this.slot1,
@@ -284,22 +326,69 @@ export default {
         this.slot5,
         this.slot6,
       ];
-      const results = slotTimes.map((slotTime) => {
+      const results = slotTimes.map((slotTime, index) => {
+        // include index for tracking selectedSlot
         const slotHour = slotTime.getHours();
-        console.log("this is slot hour: ", slotHour);
         for (let i = 0; i < this.schedules.length; i++) {
           const scheduleHour = new Date(this.schedules[i].start).getHours();
-          console.log("this is schedule", i, "hour: ", scheduleHour);
-
           if (slotHour === scheduleHour) {
+            if (this.selectedSlot === index) {
+              this.selectedSlot = null; // reset selectedSlot if checkbox is disabled
+            }
             return true;
           }
+        }
+        if (this.disabledButtons[index]) {
+          if (this.selectedSlot === index) {
+            this.selectedSlot = null; // reset selectedSlot if checkbox is disabled
+          }
+          return true;
         }
         return false;
       });
       this.disabledButtons = results;
-      console.log(this.disabledButtons);
+      if (this.selectedSlot === null) {
+        // select the first available slot if none is selected
+        this.selectedSlot = results.indexOf(false);
+      }
       return results;
+    },
+
+    checkDoctorSchedule(doc, date) {
+      const docId = doc;
+      const formattedDate = this.dateToYMD(date);
+      console.log(docId);
+      console.log("date", formattedDate);
+      HTTP.get(
+        `ReservedSchedules/GetDocScheduleByDate/${docId}/${formattedDate}`
+      )
+        .then((res) => {
+          this.schedules = res.data;
+          this.checkSlot();
+          this.showSuccess();
+        })
+        .catch((err) => {
+          console.log(err);
+          this.disabledButtons = [false, false, false, false, false, false];
+          this.showSuccess();
+        });
+    },
+    dateToYMD(end_date) {
+      var ed = new Date(end_date);
+      var d = ed.getDate();
+      var m = ed.getMonth() + 1;
+      var y = ed.getFullYear();
+      return (
+        "" + y + "-" + (m <= 9 ? "0" + m : m) + "-" + (d <= 9 ? "0" + d : d)
+      );
+    },
+    showSuccess() {
+      this.$toast.add({
+        severity: "success",
+        summary: "Success Message",
+        detail: "Message Content",
+        life: 3000,
+      });
     },
   },
 };
@@ -341,5 +430,54 @@ input::placeholder {
 }
 textarea {
   border-radius: 15px;
+}
+</style>
+<style>
+.p-dropdown.p-component.p-inputwrapper.p-inputwrapper-filled {
+  width: 135%;
+}
+.p-fieldset .p-fieldset-legend {
+  background-color: #cb5850;
+}
+.p-fieldset {
+  background-color: #fecccc;
+}
+
+.cat {
+  margin: 4px;
+  background-color: #3b82f6;
+  border-radius: 4px;
+  border: 1px solid #fff;
+  overflow: hidden;
+  float: left;
+}
+.cat label {
+  float: left;
+  line-height: 3em;
+  width: 10em;
+  height: 3em;
+}
+.cat label span {
+  text-align: center;
+  display: block;
+}
+.cat label input {
+  position: absolute;
+  display: none;
+  color: #fff !important;
+}
+.cat label input + span {
+  color: #fff;
+}
+.cat input:checked + span {
+  color: #ffffff;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+}
+.action input:checked + span {
+  background-color: blue;
+}
+.cantChoose {
+  background-color: gray;
+  pointer-events: none;
 }
 </style>

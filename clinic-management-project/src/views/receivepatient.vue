@@ -1,130 +1,133 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <fieldset>
-    <legend><h5>Patient Infomation</h5></legend>
-    <div class="fieldset-content">
-      <div class="d-flex justify-content-between">
-        <div>
-          <span>Full Name:</span>
-          <AutoComplete
-            v-model="queueDetails"
-            :suggestions="filteredPatients"
-            @complete="searchPatient($event)"
-            optionLabel="user.fullName"
-            class="form-control"
-          />
+  <div>
+    <fieldset style="width: 103%">
+      <legend><h5>Patient Infomation</h5></legend>
+      <div class="fieldset-content">
+        <div class="d-flex justify-content-between align-items-center">
+          <div style="width: 32%">
+            <span>Full Name:</span>
+            <AutoComplete
+              v-model="queueDetails"
+              :suggestions="filteredPatients"
+              @complete="searchPatient($event)"
+              optionLabel="user.fullName"
+              class="form-control"
+            />
+          </div>
+          <div>
+            <span> DoB:</span>
+            <InputText
+              type="date"
+              v-model="queue.birthDay"
+              readonly
+              class="form-control"
+            />
+          </div>
+          <div>
+            <span> Gender:</span>
+            <InputText
+              type="text"
+              v-model="queue.gender"
+              readonly
+              class="form-control"
+            />
+          </div>
+          <div class="address">
+            <span> Address:</span>
+            <InputText
+              type="text"
+              v-model="queue.address"
+              readonly
+              class="form-control"
+            />
+          </div>
+          <div class="phone">
+            <span>Phone Number:</span>
+            <InputText
+              type="text"
+              v-model="queue.phoneNumber"
+              readonly
+              class="form-control"
+            />
+          </div>
         </div>
-        <div>
-          <span> DoB:</span>
-          <InputText
-            type="date"
-            v-model="queue.birthDay"
-            readonly
-            class="form-control"
-          />
-        </div>
-        <div>
-          <span> Gender:</span>
-          <InputText
-            type="text"
-            v-model="queue.gender"
-            readonly
-            class="form-control"
-          />
-        </div>
-        <div class="address">
-          <span> Address:</span>
-          <InputText
-            type="text"
-            v-model="queue.address"
-            readonly
-            class="form-control"
-          />
-        </div>
-        <div class="phone">
-          <span>Phone Number:</span>
-          <InputText
-            type="text"
-            v-model="queue.phoneNumber"
-            readonly
-            class="form-control"
-          />
+        <div class="d-flex justify-content-between">
+          <div class="me-2">
+            <span>Pulse:</span>
+            <InputNumber
+              inputId="withoutgrouping"
+              v-model="inputQueue.Pulse"
+              mode="decimal"
+              :useGrouping="false"
+              placeholder="bpm"
+              class="form-control"
+              style="width: 195px"
+            />
+          </div>
+          <div class="me-2">
+            <span> Blood Pressure:</span>
+            <InputNumber
+              inputId="withoutgrouping"
+              v-model="inputQueue.BloodPressure"
+              mode="decimal"
+              :useGrouping="false"
+              placeholder="mmHg"
+              class="form-control"
+            />
+          </div>
+          <div class="me-2">
+            <span>Temperature:</span>
+            <InputNumber
+              inputId="withoutgrouping"
+              v-model="inputQueue.Tempurature"
+              mode="decimal"
+              :useGrouping="false"
+              placeholder="°C"
+              class="form-control"
+            />
+          </div>
+          <div class="me-2">
+            <span> Weight:</span>
+            <InputNumber
+              inputId="withoutgrouping"
+              v-model="inputQueue.Weight"
+              mode="decimal"
+              :useGrouping="false"
+              placeholder="Kg"
+              class="form-control"
+            />
+          </div>
+          <div class="me-2" style="width: 190px">
+            Height:
+            <InputNumber
+              inputId="withoutgrouping"
+              v-model="inputQueue.Height"
+              mode="decimal"
+              :useGrouping="false"
+              placeholder="Cm"
+              class="form-control"
+            />
+          </div>
+          <div>
+            Doctor:
+            <Dropdown
+              v-model="doctor.doctorId"
+              :options="doctors"
+              optionValue="id"
+              optionLabel="fullName"
+              placeholder="Select a Doctor"
+              class="form-control"
+            />
+          </div>
         </div>
       </div>
-      <div class="d-flex justify-content-between">
-        <div>
-          <span>Pulse:</span>
-          <InputNumber
-            inputId="withoutgrouping"
-            v-model="inputQueue.Pulse"
-            mode="decimal"
-            :useGrouping="false"
-            placeholder="bpm"
-            class="form-control"
-          />
-        </div>
-        <div>
-          <span> Blood Pressure:</span>
-          <InputNumber
-            inputId="withoutgrouping"
-            v-model="inputQueue.BloodPressure"
-            mode="decimal"
-            :useGrouping="false"
-            placeholder="mmHg"
-            class="form-control"
-          />
-        </div>
-        <div>
-          <span>Temperature:</span>
-          <InputNumber
-            inputId="withoutgrouping"
-            v-model="inputQueue.Tempurature"
-            mode="decimal"
-            :useGrouping="false"
-            placeholder="°C"
-            class="form-control"
-          />
-        </div>
-        <div>
-          <span> Weight:</span>
-          <InputNumber
-            inputId="withoutgrouping"
-            v-model="inputQueue.Weight"
-            mode="decimal"
-            :useGrouping="false"
-            placeholder="Kg"
-            class="form-control"
-          />
-        </div>
-        <div>
-          Height:
-          <InputNumber
-            inputId="withoutgrouping"
-            v-model="inputQueue.Height"
-            mode="decimal"
-            :useGrouping="false"
-            placeholder="Cm"
-            class="form-control"
-          />
-        </div>
-        <div>
-          Doctor:
-          <Dropdown
-            v-model="doctor.doctorId"
-            :options="doctors"
-            optionValue="id"
-            optionLabel="fullName"
-            placeholder="Select a Doctor"
-            class="form-control"
-          />
-        </div>
-      </div>
-    </div>
-  </fieldset>
+    </fieldset>
+  </div>
   <div class="mt-3">
     <div class="d-flex">
-      <div class="col-md-8">
-        <fieldset>
+      <div class="col-md-8" style="margin-right: 18px">
+        <fieldset style="width: 102%">
           <legend>
             <div class="d-flex justify-content-between align-items-center">
               <h5>Doctor's Appoitment</h5>
@@ -144,7 +147,7 @@
       </div>
       <div class="col-md-4 ms-2">
         <div>
-          <fieldset>
+          <fieldset style="width: 103%">
             <legend>
               <div
                 class="d-flex justify-content-between align-items-center"
@@ -343,6 +346,16 @@ fieldset legend {
 .p-inputnumber.p-component.p-inputwrapper.form-control,
 .p-autocomplete.p-component.p-inputwrapper.form-control {
   border: none;
+  width: 108%;
   margin-left: -10px;
+}
+.p-autocomplete.p-component.p-inputwrapper {
+  width: 90%;
+}
+.fieldset-content .p-dropdown {
+  height: 55%;
+  margin-top: 5px;
+  align-items: center;
+  width: 180px;
 }
 </style>

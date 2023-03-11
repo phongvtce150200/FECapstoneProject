@@ -41,7 +41,11 @@
           </router-link>
         </ul>
         <ul class="nav" v-else>
-          <a href="" class="nav-link">Hello {{ fullName }}</a>
+          <router-link
+            class="nav-link"
+            :to="{ name: 'userProfile', params: {} }"
+            >Hello {{ fullName }}</router-link
+          >
           <button id="Logout" @click="logout">Logout</button>
         </ul>
       </nav>
