@@ -14,7 +14,10 @@
         <!-- Profile editing form -->
         <form @submit.prevent="handleSubmit">
           <div class="form-group">
-            <h3>User Profile Settings</h3>
+            <h3>
+              Doctor {{ doctorInfo.user.firstName }}
+              {{ doctorInfo.user.lastName }} Profile Settings
+            </h3>
             <div class="d-flex">
               <!-- Left form component -->
               <div class="p-2 flex-fill">
