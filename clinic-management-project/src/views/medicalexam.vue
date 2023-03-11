@@ -9,7 +9,7 @@
           :filter="true"
           optionLabel="patient.user.fullName"
           listStyle="max-height:250px"
-          style="width: 15rem"
+          style="width: 100%"
           filterPlaceholder="Search"
           @click="setData"
         >
@@ -45,7 +45,7 @@
       </div>
     </div>
     <div class="col-md-10">
-      <div class="mb-3">
+      <div class="mb-3" style="width: 104%">
         <fieldset>
           <legend><h5>Patient Health Tracking Status</h5></legend>
           <div class="fieldset-content">
@@ -157,7 +157,7 @@
         </fieldset>
       </div>
 
-      <div class="mb-3">
+      <div class="mb-3" style="width: 104%">
         <fieldset style="height: 550px">
           <legend>
             <div class="d-flex justify-content-between align-items-center">
@@ -235,7 +235,7 @@
           </div>
         </fieldset>
       </div>
-      <div>
+      <div style="width: 104%">
         <DataTable
           :value="medicines"
           :scrollable="true"

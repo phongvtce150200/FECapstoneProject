@@ -34,7 +34,7 @@
         >
           <div class="d-flex flex-column">
             <div class="p-2">
-              <div class="d-flex flex-row">
+              <div class="d-flex flex-row justify-content-between">
                 <div class="p-2">
                   <Dropdown
                     v-model="selectDocs"
@@ -75,7 +75,7 @@
                   <div class="col-sm-4">
                     <Button
                       label="Slot 1"
-                      class="w-100 p-button-outlined"
+                      class="w-100 p-button-primary"
                       v-model="slot1"
                       :disabled="disabledButtons[0]"
                     />
@@ -83,7 +83,7 @@
                   <div class="col-sm-4">
                     <Button
                       label="Slot 2"
-                      class="w-100 p-button-outlined"
+                      class="w-100 p-button-primary"
                       v-model="slot2"
                       :disabled="disabledButtons[1]"
                     />
@@ -91,7 +91,7 @@
                   <div class="col-sm-4">
                     <Button
                       label="Slot 3"
-                      class="w-100 p-button-outlined"
+                      class="w-100 p-button-primary"
                       v-model="slot3"
                       :disabled="disabledButtons[2]"
                     />
@@ -101,7 +101,7 @@
                   <div class="col-sm-4">
                     <Button
                       label="Slot 4"
-                      class="w-100 p-button-outlined"
+                      class="w-100 p-button-primary"
                       v-model="slot4"
                       :disabled="disabledButtons[3]"
                     />
@@ -109,7 +109,7 @@
                   <div class="col-sm-4">
                     <Button
                       label="Slot 5"
-                      class="w-100 p-button-outlined"
+                      class="w-100 p-button-primary"
                       v-model="slot5"
                       :disabled="disabledButtons[4]"
                     />
@@ -117,7 +117,7 @@
                   <div class="col-sm-4">
                     <Button
                       label="Slot 6"
-                      class="w-100 p-button-outlined"
+                      class="w-100 p-button-primary"
                       v-model="slot6"
                       :disabled="disabledButtons[5]"
                     />
@@ -329,5 +329,16 @@ input::placeholder {
 }
 textarea {
   border-radius: 15px;
+}
+</style>
+<style>
+.p-dropdown.p-component.p-inputwrapper.p-inputwrapper-filled {
+  width: 135%;
+}
+.p-fieldset .p-fieldset-legend {
+  background-color: #cb5850;
+}
+.p-fieldset {
+  background-color: #fecccc;
 }
 </style>
