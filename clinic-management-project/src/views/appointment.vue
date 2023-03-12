@@ -79,107 +79,29 @@
               <div class="container">
                 <span>Slots:</span>
                 <div class="row mb-3">
-                  <!-- <div class="col-sm-4">
-                    <div class="cat action">
-                      <label>
-                        <input
-                          type="checkbox"
-                          value="1"
-                          :disabled="disabledButtons[0]"
-                        /><span :class="{ cantChoose: disabledButtons[0] }"
-                          >Action</span
-                        >
-                      </label>
-                    </div>
-                  </div> -->
-                  <div
-                    class="col-sm-4"
-                    v-for="(disabled, index) in disabledButtons"
-                    :key="index"
-                  >
-                    <div class="cat action">
-                      <label>
-                        <input
-                          type="checkbox"
-                          :disabled="disable || !selectDocs || !date"
-                          :checked="selectedSlot === index"
-                          @click="selectedSlot = index"
-                        /><span
-                          :class="{
-                            cantChoose: disabled || !selectDocs || !date,
-                          }"
-                          >Slot {{ index + 1 }}</span
-                        >
-                      </label>
-                    </div>
+                  <div class="checkbox-grid">
+                    <label
+                      v-for="(option, index) in options"
+                      :key="index"
+                      :class="{
+                        'checkbox-button': true,
+                        checked: selected.includes(option),
+                        cantChoose: disabledButtons[index] === true,
+                      }"
+                      @click="checkOne(option)"
+                    >
+                      <input
+                        type="checkbox"
+                        :value="option"
+                        v-model="selected"
+                        @change="checkOne(option)"
+                        :class="{
+                          cantChoose: disabledButtons[index] === true,
+                        }"
+                      />
+                      <span class="button-label">{{ option.label }}</span>
+                    </label>
                   </div>
-                  <!-- <div class="col-sm-4">
-                    <div class="cat action">
-                      <label>
-                        <input
-                          type="checkbox"
-                          value="1"
-                          :disabled="disabledButtons[1]"
-                        /><span :class="{ cantChoose: disabledButtons[1] }"
-                          >Action</span
-                        >
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-sm-4">
-                    <div class="cat action">
-                      <label>
-                        <input
-                          type="checkbox"
-                          value="1"
-                          :disabled="disabledButtons[2]"
-                        /><span :class="{ cantChoose: disabledButtons[2] }"
-                          >Action</span
-                        >
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-4">
-                    <div class="cat action">
-                      <label>
-                        <input
-                          type="checkbox"
-                          value="1"
-                          :disabled="disabledButtons[3]"
-                        /><span :class="{ cantChoose: disabledButtons[3] }"
-                          >Action</span
-                        >
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-sm-4">
-                    <div class="cat action">
-                      <label>
-                        <input
-                          type="checkbox"
-                          value="1"
-                          :disabled="disabledButtons[4]"
-                        /><span :class="{ cantChoose: disabledButtons[4] }"
-                          >Action</span
-                        >
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-sm-4">
-                    <div class="cat action">
-                      <label>
-                        <input
-                          type="checkbox"
-                          value="1"
-                          :disabled="disabledButtons[5]"
-                        /><span :class="{ cantChoose: disabledButtons[5] }"
-                          >Action</span
-                        >
-                      </label>
-                    </div>
-                  </div> -->
                 </div>
               </div>
               <span>Reason</span>
@@ -212,6 +134,33 @@ import { HTTP } from "@/axios";
 
 export default {
   data() {
+    const options = [
+      "8:00 AM",
+      "9:30 AM",
+      "11:00 AM",
+      "1:30 PM",
+      "2:00 PM",
+      "5:00 PM",
+    ];
+
+    const dateOptions = options.map((option, index) => {
+      const [time, period] = option.split(" ");
+      const [hours, minutes] = time.split(":");
+      const date = new Date();
+      date.setHours(hours);
+      date.setMinutes(minutes);
+      date.setSeconds(0);
+      date.setMilliseconds(0);
+
+      if (period === "PM" && hours !== "12") {
+        date.setHours(date.getHours() + 12);
+      }
+
+      return {
+        value: date,
+        label: `Slot ${index + 1}`,
+      };
+    });
     return {
       date: null,
       selectServices: null,
@@ -232,7 +181,10 @@ export default {
         },
       },
 
-      selectedSlot: [false, false, false, false, false, false],
+      selectedSlot: [],
+
+      options: dateOptions,
+      selected: [],
     };
   },
   watch: {
@@ -250,9 +202,8 @@ export default {
   async created() {
     this.getAllServices();
     this.getAllDocs();
-    this.createSlot();
-    this.checkSlot();
   },
+
   methods: {
     async getAllServices() {
       this.loading = true;
@@ -277,58 +228,10 @@ export default {
         });
       this.loading = false;
     },
-    createSlot() {
-      const slotTimes = [
-        [8, 0], // Slot 1
-        [9, 30], // Slot 2
-        [11, 0], // Slot 3
-        [14, 0], // Slot 4
-        [15, 30], // Slot 5
-        [17, 0], // Slot 6
-      ];
-
-      for (let i = 0; i < slotTimes.length; i++) {
-        const [hours, minutes] = slotTimes[i];
-        const date = new Date();
-        date.setHours(hours, minutes, 0, 0);
-        this["slot" + (i + 1)] = date;
-      }
-    },
-    // checkSlot() {
-    //   const slotTimes = [
-    //     this.slot1,
-    //     this.slot2,
-    //     this.slot3,
-    //     this.slot4,
-    //     this.slot5,
-    //     this.slot6,
-    //   ];
-    //   const results = slotTimes.map((slotTime) => {
-    //     const slotHour = slotTime.getHours();
-    //     for (let i = 0; i < this.schedules.length; i++) {
-    //       const scheduleHour = new Date(this.schedules[i].start).getHours();
-
-    //       if (slotHour === scheduleHour) {
-    //         return true;
-    //       }
-    //     }
-    //     return false;
-    //   });
-    //   this.disabledButtons = results;
-    //   return results;
-    // },
-    checkSlot() {
-      const slotTimes = [
-        this.slot1,
-        this.slot2,
-        this.slot3,
-        this.slot4,
-        this.slot5,
-        this.slot6,
-      ];
-      const results = slotTimes.map((slotTime, index) => {
+    async checkSlot() {
+      const results = await this.options.map((val, index) => {
         // include index for tracking selectedSlot
-        const slotHour = slotTime.getHours();
+        const slotHour = val.value.getHours();
         for (let i = 0; i < this.schedules.length; i++) {
           const scheduleHour = new Date(this.schedules[i].start).getHours();
           if (slotHour === scheduleHour) {
@@ -351,25 +254,27 @@ export default {
         // select the first available slot if none is selected
         this.selectedSlot = results.indexOf(false);
       }
+      console.log(results);
       return results;
     },
 
     checkDoctorSchedule(doc, date) {
+      this.selected = [];
+      this.disabledButtons = [];
       const docId = doc;
       const formattedDate = this.dateToYMD(date);
-      console.log(docId);
       console.log("date", formattedDate);
       HTTP.get(
         `ReservedSchedules/GetDocScheduleByDate/${docId}/${formattedDate}`
       )
         .then((res) => {
           this.schedules = res.data;
+          console.log(this.schedules);
           this.checkSlot();
           this.showSuccess();
         })
         .catch((err) => {
           console.log(err);
-          this.disabledButtons = [false, false, false, false, false, false];
           this.showSuccess();
         });
     },
@@ -389,6 +294,25 @@ export default {
         detail: "Message Content",
         life: 3000,
       });
+    },
+    async checkOne(option) {
+      console.log(option.value.getHours());
+      this.selected = [option]; // assign the selected option to the option parameter
+      console.log(this.selected[0].value);
+      const hours = this.selected[0].value
+        .getHours()
+        .toString()
+        .padStart(2, "0");
+      const minutes = this.selected[0].value
+        .getMinutes()
+        .toString()
+        .padStart(2, "0");
+      const seconds = this.selected[0].value
+        .getSeconds()
+        .toString()
+        .padStart(2, "0");
+      const time = `${hours}:${minutes}:${seconds}`;
+      console.log(time);
     },
   },
 };
@@ -431,6 +355,44 @@ input::placeholder {
 textarea {
   border-radius: 15px;
 }
+.cantChoose {
+  background-color: gray !important;
+  pointer-events: none;
+}
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.checkbox-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0d6efd;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  height: 50px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.checkbox-button:hover {
+  background-color: #0b5ed7;
+}
+
+.checkbox-button input[type="checkbox"] {
+  opacity: 0;
+  position: absolute;
+  cursor: pointer;
+}
+
+.checkbox-button.checked {
+  background-color: #198754;
+}
 </style>
 <style>
 .p-dropdown.p-component.p-inputwrapper.p-inputwrapper-filled {
@@ -441,43 +403,5 @@ textarea {
 }
 .p-fieldset {
   background-color: #fecccc;
-}
-
-.cat {
-  margin: 4px;
-  background-color: #3b82f6;
-  border-radius: 4px;
-  border: 1px solid #fff;
-  overflow: hidden;
-  float: left;
-}
-.cat label {
-  float: left;
-  line-height: 3em;
-  width: 10em;
-  height: 3em;
-}
-.cat label span {
-  text-align: center;
-  display: block;
-}
-.cat label input {
-  position: absolute;
-  display: none;
-  color: #fff !important;
-}
-.cat label input + span {
-  color: #fff;
-}
-.cat input:checked + span {
-  color: #ffffff;
-  text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
-}
-.action input:checked + span {
-  background-color: blue;
-}
-.cantChoose {
-  background-color: gray;
-  pointer-events: none;
 }
 </style>
