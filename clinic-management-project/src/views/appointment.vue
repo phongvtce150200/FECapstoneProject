@@ -108,6 +108,7 @@
               <div class="d-flex justify-content-around mb-3">
                 <div>
                   <Textarea
+                    v-model="Reason"
                     :autoResize="false"
                     rows="15"
                     cols="70"
@@ -115,13 +116,18 @@
                   />
                 </div>
               </div>
-              <a
+              <!-- <a
                 href="#"
                 class="submit-button d-flex justify-content-center"
                 style="text-decoration: none"
               >
                 <span class="text-white text-decoration-none">Submit</span>
-              </a>
+              </a> -->
+              <Button
+                label="Create"
+                class="p-button-raised p-button-primary"
+                @click="createAppointment()"
+              ></Button>
             </div>
           </div>
         </div>
@@ -131,6 +137,7 @@
 </template>
 <script>
 import { HTTP } from "@/axios";
+//import { get } from "http";
 
 export default {
   data() {
@@ -163,7 +170,7 @@ export default {
     });
     return {
       date: null,
-      selectServices: null,
+      selectServices: [],
       services: [],
       doctors: [],
       schedules: [],
@@ -172,15 +179,12 @@ export default {
       appointment: {
         DoctorId: null,
         PatientId: localStorage.getItem("PatientId"),
-        AppointmentDetails: {
-          Service: {
-            Id: null,
-          },
-          Reason: null,
-          SubTotal: null,
-        },
+        AppointmentDate: null,
+        SubTotal: null,
+        AppointmentDetails: null,
       },
-
+      Reason: null,
+      Service: [],
       selectedSlot: [],
 
       options: dateOptions,
@@ -315,9 +319,29 @@ export default {
       console.log(time);
     },
     createAppointment() {
-      HTTP.post()
+      this.appointment.DoctorId = this.selectDocs.id;
+      this.appointment.AppointmentDate = this.date;
+      const serviceId = this.selectServices.map((svId) => svId.id);
+      this.appointment.AppointmentDetails = { ...serviceId };
+      this.appointment.AppointmentDetails.Reason = this.Reason;
+      this.appointment.SubTotal = 0;
+      for (let i = 0; i < serviceId.length; i++) {
+        if (serviceId[i] !== 0) {
+          HTTP.get(`Services/` + serviceId[i]).then((res) => {
+            this.appointment.SubTotal += res.data.servicePrice;
+          });
+        }
+      }
+      console.log(this.appointment);
+      HTTP.post("Appointment", this.appointment)
         .then((res) => {
           console.log(res);
+          this.$toast.add({
+            severity: "success",
+            summary: "Success Message",
+            detail: "Message Content",
+            life: 3000,
+          });
         })
         .catch((err) => {
           console.log(err);
