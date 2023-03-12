@@ -249,6 +249,12 @@ export default {
       HTTP.post("Authentication/Register", this.user)
         .then((res) => {
           console.log(res);
+          this.$toast.add({
+            severity: "success",
+            summary: "Confirmed",
+            detail: "Record deleted",
+            life: 3000,
+          });
           this.closePatientDialog();
           this.getAllPatient();
         })

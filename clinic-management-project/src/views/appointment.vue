@@ -314,6 +314,15 @@ export default {
       const time = `${hours}:${minutes}:${seconds}`;
       console.log(time);
     },
+    createAppointment() {
+      HTTP.post()
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
 </script>

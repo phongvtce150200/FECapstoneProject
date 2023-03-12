@@ -77,6 +77,7 @@
             <Button
               label="Restore"
               class="p-button-raised"
+              :class="{ disable: data.isDelete !== true }"
               @click="restoreMedicine(data.id)"
             />
           </template>
@@ -149,8 +150,6 @@
       />
     </template>
   </Dialog>
-  <ConfirmDialog></ConfirmDialog>
-  <Toast />
 </template>
 <script>
 import { HTTP } from "@/axios";
